@@ -22,12 +22,12 @@
         app:layout_constraintVertical_bias="0.19999999" />
 
     <EditText
-        android:id="@+id/etEmail"
+        android:id="@+id/etUsername"
         android:layout_width="332dp"
         android:layout_height="50dp"
         android:layout_marginTop="30dp"
         android:background="@drawable/login_edit_grad"
-        android:hint="Enter your email"
+        android:hint="Enter your username"
         android:inputType="textEmailAddress"
         android:paddingStart="20dp"
         android:paddingTop="13dp"
@@ -37,7 +37,7 @@
         android:textAlignment="viewStart"
         android:textColor="#55536e"
         android:textDirection="locale"
-        android:textSize="18dp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/tvHeading3"
         app:layout_constraintStart_toStartOf="@+id/tvHeading3"
         app:layout_constraintTop_toBottomOf="@+id/tvHeading3" />
@@ -58,10 +58,10 @@
         android:textAlignment="viewStart"
         android:textColor="#55536e"
         android:textDirection="locale"
-        android:textSize="18dp"
-        app:layout_constraintEnd_toEndOf="@+id/etEmail"
-        app:layout_constraintStart_toStartOf="@+id/etEmail"
-        app:layout_constraintTop_toBottomOf="@+id/etEmail" />
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/etUsername"
+        app:layout_constraintStart_toStartOf="@+id/etUsername"
+        app:layout_constraintTop_toBottomOf="@+id/etUsername" />
 
     <Button
         android:id="@+id/signInButton"

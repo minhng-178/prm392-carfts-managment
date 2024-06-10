@@ -25,7 +25,7 @@
         android:id="@+id/tvHeading3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="90dp"
         android:text="Enter your details to sign up"
         android:textColor="#55536e"
         android:textSize="30sp"
@@ -34,34 +34,13 @@
         app:layout_constraintTop_toBottomOf="@+id/tvHeading2" />
 
     <EditText
-        android:id="@+id/etEmail"
+        android:id="@+id/etUsername"
         android:layout_width="332dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="30dp"
         android:background="@drawable/login_edit_grad"
-        android:hint="Enter your email"
-        android:inputType="textEmailAddress"
-        android:paddingStart="20dp"
-        android:paddingTop="13dp"
-        android:paddingEnd="20dp"
-        android:paddingBottom="13dp"
-        android:singleLine="true"
-        android:textColor="#55536e"
-        android:textDirection="locale"
-        android:textSize="18dp"
-        app:layout_constraintEnd_toEndOf="@+id/tvHeading3"
-        app:layout_constraintStart_toStartOf="@+id/tvHeading3"
-        app:layout_constraintTop_toBottomOf="@+id/tvHeading3" />
-
-    <EditText
-        android:id="@+id/etFullName"
-        android:layout_width="332dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/login_edit_grad"
-        android:hint="Enter your name"
+        android:hint="Enter your username"
         android:inputType="textPersonName"
         android:paddingStart="20dp"
         android:paddingTop="13dp"
@@ -70,17 +49,18 @@
         android:singleLine="true"
         android:textColor="#55536e"
         android:textDirection="locale"
-        android:textSize="18dp"
-        app:layout_constraintEnd_toEndOf="@+id/etEmail"
-        app:layout_constraintStart_toStartOf="@+id/etEmail"
-        app:layout_constraintTop_toBottomOf="@+id/etEmail" />
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/tvHeading3"
+        app:layout_constraintHorizontal_bias="0.487"
+        app:layout_constraintStart_toStartOf="@+id/tvHeading3"
+        app:layout_constraintTop_toBottomOf="@+id/tvHeading3" />
 
     <EditText
         android:id="@+id/etPassword"
         android:layout_width="332dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="30dp"
         android:background="@drawable/login_edit_grad"
         android:hint="Enter your password"
         android:inputType="textPassword"
@@ -91,9 +71,9 @@
         android:singleLine="true"
         android:textColor="#55536e"
         android:textDirection="locale"
-        android:textSize="18dp"
-        app:layout_constraintEnd_toEndOf="@+id/etFullName"
-        app:layout_constraintTop_toBottomOf="@+id/etFullName" />
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/etUsername"
+        app:layout_constraintTop_toBottomOf="@+id/etUsername" />
 
 
     <EditText
@@ -101,7 +81,7 @@
         android:layout_width="332dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="30dp"
         android:background="@drawable/login_edit_grad"
         android:hint="Retype password"
         android:inputType="textPassword"
@@ -112,7 +92,7 @@
         android:singleLine="true"
         android:textColor="#55536e"
         android:textDirection="locale"
-        android:textSize="18dp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/etPassword"
         app:layout_constraintStart_toStartOf="@+id/etPassword"
         app:layout_constraintTop_toBottomOf="@+id/etPassword" />
@@ -124,7 +104,7 @@
         android:layout_gravity="center"
         android:layout_marginVertical="10dp"
         android:text="Already have an account?"
-        android:textSize="16dp"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@+id/signUpButton"
         app:layout_constraintStart_toStartOf="@+id/signUpButton"
         app:layout_constraintTop_toBottomOf="@+id/signUpButton" />
@@ -137,7 +117,7 @@
         android:layout_marginTop="15dp"
         android:text="Sign In"
         android:textColor="@color/light_sea_green"
-        android:textSize="17dp"
+        android:textSize="17sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/tvHadAccount"
         app:layout_constraintStart_toStartOf="@+id/tvHadAccount"
@@ -147,8 +127,8 @@
         android:id="@+id/signUpButton"
         android:layout_width="332dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="Sign In"
+        android:layout_marginTop="30dp"
+        android:text="Sign Up"
         app:layout_constraintEnd_toEndOf="@+id/etRetypePassword"
         app:layout_constraintStart_toStartOf="@+id/etRetypePassword"
         app:layout_constraintTop_toBottomOf="@+id/etRetypePassword" />
