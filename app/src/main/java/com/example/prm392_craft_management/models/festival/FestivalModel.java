@@ -6,8 +6,6 @@ import java.util.Date;
 public class FestivalModel implements Serializable {
     private int id, status;
     private String name, image, description, start_date, end_time;
-    ;
-
     private boolean repeat_yearly;
 
     public FestivalModel(int id, int status, String name, String image, String description, String start_date, String end_time, boolean repeat_yearly) {

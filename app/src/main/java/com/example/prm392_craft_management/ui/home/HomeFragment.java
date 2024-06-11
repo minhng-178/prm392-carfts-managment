@@ -16,6 +16,8 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.prm392_craft_management.databinding.FragmentHomeBinding;
 import com.example.prm392_craft_management.models.festival.FestivalModel;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 public class HomeFragment extends Fragment {
@@ -31,13 +33,24 @@ public class HomeFragment extends Fragment {
             @Override
             public void onChanged(List<FestivalModel> festivalModels) {
                 if (festivalModels != null && !festivalModels.isEmpty()) {
-                    TextView festivalNamesTextView = binding.textFestivalNames;
+                    TextView festivalNamesFirst = binding.textFestivalNamesFirst;
+                    TextView festivalNamesSecond = binding.textFestivalNamesSecond;
+                    TextView festivalNamesThird = binding.textFestivalNamesThird;
+                    TextView festivalNamesFourth = binding.textFestivalNamesFourth;
 
                     StringBuilder festivalNames = new StringBuilder();
                     for (FestivalModel festival : festivalModels) {
                         festivalNames.append(festival.getName()).append("\n");
+                        festivalNamesFirst.append(festival.getName());
+                        festivalNamesSecond.append(festival.getName());
+                        festivalNamesThird.append(festival.getName());
+                        festivalNamesFourth.append(festival.getName());
+
                     }
-                    festivalNamesTextView.setText(festivalNames.toString());
+                    festivalNamesFirst.setText(festivalNames.toString());
+                    festivalNamesSecond.setText(festivalNames.toString());
+                    festivalNamesThird.setText(festivalNames.toString());
+                    festivalNamesFourth.setText(festivalNames.toString());
                 }
             }
         });
