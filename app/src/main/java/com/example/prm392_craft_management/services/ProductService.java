@@ -1,5 +1,6 @@
 package com.example.prm392_craft_management.services;
 
+import com.example.prm392_craft_management.models.product.ProductModel;
 import com.example.prm392_craft_management.models.product.ProductResponseModel;
 
 import retrofit2.Call;
@@ -13,5 +14,5 @@ public interface ProductService {
     Call<ProductResponseModel> getAllProducts();
 
     @GET(PRODUCT + "/{id}")
-    Call<ProductResponseModel> getProductById(@Path("id") int id);
+    Call<ProductModel> getProductById(@Path("id") int id);
 }
