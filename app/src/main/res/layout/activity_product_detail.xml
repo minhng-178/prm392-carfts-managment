@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/silver"
+    tools:context=".ui.details.ProductDetailActivity">
+
+    <ImageView
+        android:id="@+id/image_product"
+        android:layout_width="match_parent"
+        android:layout_height="280dp"
+        android:scaleType="fitCenter" />
+
+    <ImageButton
+        android:id="@+id/button_back"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_margin="20dp"
+        android:background="@drawable/bg_back"
+        android:elevation="10dp"
+        android:src="@drawable/ic_back" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="250dp"
+        android:background="@drawable/bg_half_rounded_dark"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp">
+
+            <TextView
+                android:id="@+id/text_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Product name"
+                android:textColor="@color/dark_late_gray"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:id="@+id/image_festival"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_below="@+id/text_name"
+                android:layout_marginTop="6dp"
+                android:src="@drawable/ic_festival" />
+
+            <TextView
+                android:id="@+id/item_recommended_festival"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_name"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_toEndOf="@+id/image_festival"
+                android:text="Festival"
+                android:textColor="@color/dark_gray"
+                android:textSize="11sp"
+                tools:ignore="SmallSp" />
+
+            <RatingBar
+                android:id="@+id/rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/item_recommended_festival"
+                android:layout_marginTop="5dp"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:rating="5"
+                android:stepSize="0.1"
+                android:theme="@style/Theme.Prm392craftmanagement.RatingBar" />
+
+            <TextView
+                android:id="@+id/rate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/item_recommended_festival"
+                android:layout_marginStart="75dp"
+                android:layout_marginTop="5dp"
+                android:layout_toEndOf="@+id/image_festival"
+                android:text="5 Stars"
+                android:textColor="@color/dark_gray"
+                android:textSize="11sp"
+                tools:ignore="SmallSp" />
+
+            <ImageButton
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/bg_rounded_white"
+                android:elevation="10dp"
+                android:src="@drawable/ic_favorite" />
+
+            <ImageButton
+                android:id="@+id/button_telepon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/bg_circle_gray_line"
+                android:src="@drawable/ic_phone"
+                app:tint="@color/dark_gray" />
+
+            <ImageButton
+                android:id="@+id/button_chat"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@+id/button_telepon"
+                android:background="@drawable/bg_circle_gray_line"
+                android:src="@drawable/ic_chat"
+                app:tint="@color/dark_gray" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/bg_circle_green_line"
+                android:paddingStart="30dp"
+                android:paddingEnd="30dp"
+                android:text="Add to Cart"
+                android:textAllCaps="false"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>

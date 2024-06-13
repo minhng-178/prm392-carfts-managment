@@ -19,6 +19,12 @@
         <item name="android:activityOpenExitAnimation">@anim/slide_out_left</item>
     </style>
 
+    <style name="Theme.Prm392craftmanagement.RatingBar">
+        <item name="colorControlNormal">@color/dark_gray</item>
+        <item name="colorControlActivated">@color/orange</item>
+        <item name="ratingBarStyle">?android:attr/ratingBarStyleSmall</item>
+    </style>
+
 
     <style name="Theme.Prm392craftmanagement" parent="Base.Theme.Prm392craftmanagement" />
 </resources>
