@@ -4,15 +4,22 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.prm392_craft_management.models.order.OrderModel;
+
+import java.util.List;
+
 public class OrderViewModel extends ViewModel {
-    private final MutableLiveData<String> mText;
+    private final MutableLiveData<List<OrderModel>> orderItems;
 
     public OrderViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is order fragment");
+        orderItems = new MutableLiveData<>();
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public void setOrderItems(List<OrderModel> orderModels) {
+        orderItems.setValue(orderModels);
+    }
+
+    public LiveData<List<OrderModel>> getOrderItems() {
+        return orderItems;
     }
 }
