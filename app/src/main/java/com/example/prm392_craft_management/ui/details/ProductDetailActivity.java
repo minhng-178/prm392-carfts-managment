@@ -17,7 +17,6 @@ import com.example.prm392_craft_management.R;
 import com.example.prm392_craft_management.models.festival.FestivalModel;
 import com.example.prm392_craft_management.models.image.ImageModel;
 import com.example.prm392_craft_management.models.product.ProductModel;
-import com.example.prm392_craft_management.models.product.ProductResponseModel;
 import com.example.prm392_craft_management.repositories.ProductRepository;
 import com.example.prm392_craft_management.services.ProductService;
 
@@ -32,8 +31,8 @@ import retrofit2.Response;
 
 public class ProductDetailActivity extends AppCompatActivity {
     ImageButton buttonBack;
-    private TextView textName, textFestival, rate;
-    private ImageView imageProduct, imageFestival;
+    private TextView textName, textFestival, textPrice, textWeight, textDescription, rate;
+    private ImageView imageProduct;
     private RatingBar rating;
 
     @Override
@@ -47,10 +46,12 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         buttonBack = findViewById(R.id.button_back);
         textName = findViewById(R.id.text_name);
-        textFestival = findViewById(R.id.item_recommended_festival);
+        textFestival = findViewById(R.id.item_search_festival);
         rate = findViewById(R.id.rate);
+        textPrice = findViewById(R.id.text_price);
+        textWeight = findViewById(R.id.text_weight);
+        textDescription = findViewById(R.id.text_description);
         imageProduct = findViewById(R.id.image_product);
-        imageFestival = findViewById(R.id.image_festival);
         rating = findViewById(R.id.rating);
 
         buttonBack.setOnClickListener(view -> getOnBackPressedDispatcher().onBackPressed());
@@ -99,6 +100,10 @@ public class ProductDetailActivity extends AppCompatActivity {
                     .load(imageUrl)
                     .into(imageProduct);
         }
+
+        textPrice.setText(String.format(Locale.getDefault(), "%.2f", product.getPrice()));
+        textWeight.setText(String.format(Locale.getDefault(), "%.2f", product.getWeight()));
+        textDescription.setText(product.getDescription());
     }
 }
 

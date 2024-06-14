@@ -47,7 +47,6 @@ public class HomeFragment extends Fragment {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onChanged(List<ProductModel> productModels) {
-                // Update the data in the adapter
                 homeAdapter.listProduct = productModels;
                 homeAdapter.notifyDataSetChanged();
             }

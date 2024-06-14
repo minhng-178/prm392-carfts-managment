@@ -89,7 +89,7 @@ public class HomeViewModel extends ViewModel {
 
             @Override
             public void onFailure(@NonNull Call<ProductResponseModel> call, @NonNull Throwable t) {
-                mFestivals.postValue(null);
+                mProducts.postValue(null);
                 mError.setValue(t.getMessage());
             }
         });
