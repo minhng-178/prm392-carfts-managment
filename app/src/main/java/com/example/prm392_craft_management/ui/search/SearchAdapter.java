@@ -1,4 +1,4 @@
-package com.example.prm392_craft_management.ui.home;
+package com.example.prm392_craft_management.ui.search;
 
 import android.content.Intent;
 import android.text.TextUtils;
@@ -23,22 +23,23 @@ import com.example.prm392_craft_management.ui.details.ProductDetailActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
+public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
     List<ProductModel> listProduct;
 
-    public HomeAdapter(List<ProductModel> listProduct) {
+    public SearchAdapter(List<ProductModel> listProduct) {
         this.listProduct = listProduct;
     }
 
     @NonNull
     @Override
-    public HomeAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recommended, parent, false);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        Log.d("Adapter", "onCreateViewHolder called");
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_search, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull HomeAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ProductModel list = listProduct.get(position);
         holder.textName.setText(list.getName());
         holder.textPrice.setText(String.valueOf(list.getPrice()));
@@ -53,12 +54,10 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         if (!list.getImages().isEmpty()) {
             ImageModel imageModel = list.getImages().get(0);
             String imageUrl = imageModel.getUrl();
-            Glide.with(holder.imageRecommended.getContext())
-                    .load(imageUrl)
-                    .into(holder.imageRecommended);
+            Glide.with(holder.imageSearch.getContext()).load(imageUrl).into(holder.imageSearch);
         }
 
-        holder.containerRecommended.setOnClickListener(new View.OnClickListener() {
+        holder.containerSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), ProductDetailActivity.class);
@@ -74,14 +73,15 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        CardView containerRecommended;
-        ImageView imageRecommended;
+        CardView containerSearch;
+        ImageView imageSearch;
         TextView textPrice, textName, textFestival;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(View itemView) {
             super(itemView);
-            containerRecommended = itemView.findViewById(R.id.container_search);
-            imageRecommended = itemView.findViewById(R.id.item_search_image);
+
+            containerSearch = itemView.findViewById(R.id.container_search);
+            imageSearch = itemView.findViewById(R.id.item_search_image);
             textName = itemView.findViewById(R.id.item_search_name);
             textPrice = itemView.findViewById(R.id.item_search_price);
             textFestival = itemView.findViewById(R.id.item_search_festival);
