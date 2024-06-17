@@ -46,7 +46,8 @@ public class LoginActivity extends AppCompatActivity {
         String username = sharedPreferences.getString("USERNAME", "");
         String token = sharedPreferences.getString("TOKEN", "");
         String role = sharedPreferences.getString("ROLE", "");
-        if (!username.isEmpty() && !token.isEmpty() && !role.isEmpty()) {
+        String userId = sharedPreferences.getString("USER_ID", "");
+        if (!username.isEmpty() && !token.isEmpty() && !role.isEmpty() && !userId.isEmpty()) {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             finish();
@@ -115,6 +116,7 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString("USERNAME", username);
                     editor.putString("TOKEN", response.body().getResult().getToken());
                     editor.putString("ROLE", response.body().getResult().getUser().getRole().getName());
+                    editor.putString("USER_ID", String.valueOf(response.body().getResult().getUser().getId()));
                     editor.apply();
                     Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
                     startActivity(intent);

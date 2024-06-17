@@ -2,7 +2,7 @@ package com.example.prm392_craft_management.ui.home;
 
 import android.content.Intent;
 import android.text.TextUtils;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,14 +73,14 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         return listProduct.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         CardView containerRecommended;
         ImageView imageRecommended;
         TextView textPrice, textName, textFestival;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            containerRecommended = itemView.findViewById(R.id.container_search);
+            containerRecommended = itemView.findViewById(R.id.container_recommended);
             imageRecommended = itemView.findViewById(R.id.item_search_image);
             textName = itemView.findViewById(R.id.item_search_name);
             textPrice = itemView.findViewById(R.id.item_search_price);
