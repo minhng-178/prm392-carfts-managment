@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -43,6 +44,32 @@ public class SearchFragment extends Fragment {
             public void onChanged(List<ProductModel> productModels) {
                 searchAdapter.listProduct = productModels;
                 searchAdapter.notifyDataSetChanged();
+            }
+        });
+        searchViewModel.getFilteredProducts().observe(getViewLifecycleOwner(), new Observer<List<ProductModel>>() {
+            @Override
+            public void onChanged(List<ProductModel> productModels) {
+                searchAdapter.listProduct = productModels;
+                searchAdapter.notifyDataSetChanged();
+                if (productModels.isEmpty()){
+                    binding.textNoProducts.setVisibility(View.VISIBLE);
+                } else {
+                    binding.textNoProducts.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                searchViewModel.filterProducts(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                searchViewModel.filterProducts(newText);
+                return true;
             }
         });
 
