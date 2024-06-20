@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.login.LoginActivity"
-    >
+    tools:context=".ui.login.LoginActivity">
 
     <TextView
         android:id="@+id/tvHeading2"
@@ -17,9 +16,10 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.19999999" />
+        app:layout_constraintVertical_bias="0.100000024" />
 
     <EditText
         android:id="@+id/etUsername"
@@ -86,6 +86,17 @@
         app:layout_constraintStart_toStartOf="@+id/tvDontHaveAccount"
         app:layout_constraintTop_toBottomOf="@+id/tvDontHaveAccount" />
 
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/signInGoogle"
+        android:layout_width="332dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
     <TextView
         android:id="@+id/tvDontHaveAccount"
         android:layout_width="wrap_content"
@@ -93,9 +104,9 @@
         android:layout_marginTop="30dp"
         android:text="Don't have an account?"
         android:textSize="16dp"
-        app:layout_constraintEnd_toEndOf="@+id/signInButton"
-        app:layout_constraintStart_toStartOf="@+id/signInButton"
-        app:layout_constraintTop_toBottomOf="@+id/signInButton" />
+        app:layout_constraintEnd_toEndOf="@+id/signInGoogle"
+        app:layout_constraintStart_toStartOf="@+id/signInGoogle"
+        app:layout_constraintTop_toBottomOf="@+id/signInGoogle" />
 
     <TextView
         android:id="@+id/tvHeading3"
@@ -109,5 +120,15 @@
         app:layout_constraintHorizontal_bias="0.522"
         app:layout_constraintStart_toStartOf="@+id/tvHeading2"
         app:layout_constraintTop_toBottomOf="@+id/tvHeading2" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="Or continue with"
+        app:layout_constraintEnd_toEndOf="@+id/signInButton"
+        app:layout_constraintStart_toStartOf="@+id/signInButton"
+        app:layout_constraintTop_toBottomOf="@+id/signInButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

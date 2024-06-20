@@ -7,4 +7,11 @@
         android:orderInCategory="100"
         android:title="Cart"
         app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_message"
+        android:icon="@drawable/ic_message"
+        android:orderInCategory="101"
+        android:title="Message"
+        app:showAsAction="ifRoom" />
 </menu>

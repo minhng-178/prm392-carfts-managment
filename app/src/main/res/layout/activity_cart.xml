@@ -4,33 +4,64 @@
     android:layout_height="match_parent"
     tools:context=".ui.cart.CartActivity">
 
-    <ImageButton
-        android:id="@+id/button_back"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_margin="20dp"
-        android:background="@drawable/bg_back"
-        android:elevation="10dp"
-        android:src="@drawable/ic_back" />
-
-    <TextView
-        android:id="@+id/tvTotalItems"
+    <LinearLayout
+        android:id="@+id/layout_back"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/button_back"
-        android:background="@android:color/white"
-        android:gravity="end"
-        android:padding="8dp"
-        android:text="Total Items: 0"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp">
+
+        <ImageButton
+            android:id="@+id/button_back"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_margin="20dp"
+            android:background="@drawable/bg_back"
+            android:elevation="10dp"
+            android:src="@drawable/ic_back" />
+
+        <TextView
+            android:id="@+id/tvTotalItems"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/button_back"
+            android:background="@android:color/white"
+            android:gravity="end"
+            android:padding="8dp"
+            android:text="Total Items: $0.00"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/layout_select_all_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layout_back"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp">
+
+        <CheckBox
+            android:id="@+id/checkbox_select_all"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Select All" />
+
+        <Button
+            android:id="@+id/button_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel" />
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvCartItems"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/tvTotalPrice"
-        android:layout_below="@id/tvTotalItems"
+        android:layout_below="@id/layout_select_all_cancel"
         android:divider="@android:color/darker_gray"
         android:dividerHeight="0.5dp" />
 
@@ -39,7 +70,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/tvTotalPrice"
-        android:layout_below="@id/tvTotalItems"
+        android:layout_below="@id/layout_select_all_cancel"
         android:src="@drawable/empty_cart" />
 
     <TextView
@@ -62,5 +93,5 @@
         android:layout_marginHorizontal="10dp"
         android:layout_marginBottom="10dp"
         android:background="@drawable/bg_circle_green_line"
-        android:text="Checkout" />
+        android:text="Buy Now(0)" />
 </RelativeLayout>

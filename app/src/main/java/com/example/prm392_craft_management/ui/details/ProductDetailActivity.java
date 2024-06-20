@@ -1,5 +1,6 @@
 package com.example.prm392_craft_management.ui.details;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -41,11 +42,12 @@ import retrofit2.Response;
 public class ProductDetailActivity extends AppCompatActivity {
     ImageButton buttonBack;
     Button addToCart, btnDecreaseQuantity, btnIncreaseQuantity;
-    TextView textName, textFestival, textPrice, textWeight, textDescription, rate, tvQuantity;
+    TextView textName, textFestival, textPrice, textWeight, textDescription, textAmount,rate, tvQuantity;
     ImageView imageProduct;
     RatingBar rating;
     private int productId;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +66,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         textWeight = findViewById(R.id.text_weight);
         textDescription = findViewById(R.id.text_description);
         imageProduct = findViewById(R.id.image_product);
+        textAmount = findViewById(R.id.text_amount);
         rating = findViewById(R.id.rating);
         btnDecreaseQuantity = findViewById(R.id.btnDecreaseQuantity);
         btnIncreaseQuantity = findViewById(R.id.btnIncreaseQuantity);
@@ -101,8 +104,6 @@ public class ProductDetailActivity extends AppCompatActivity {
     private void updateUI(ProductModel product) {
         SharedPreferences sharedPreferences = getSharedPreferences("User_Info", MODE_PRIVATE);
         int storedQuantity = sharedPreferences.getInt("PRODUCT_" + productId, 1);
-        Log.d("TAG", "updateUI: " + storedQuantity);
-
         int[] quantity = {storedQuantity};
 
         btnDecreaseQuantity.setOnClickListener(view -> {
@@ -134,8 +135,11 @@ public class ProductDetailActivity extends AppCompatActivity {
             Glide.with(imageProduct.getContext()).load(imageUrl).into(imageProduct);
         }
 
+        Log.d("TAG", "updateUI: "+ product.getAmount());
+
         textPrice.setText(String.format(Locale.getDefault(), "%.2f", product.getPrice()));
         textWeight.setText(String.format(Locale.getDefault(), "Weight: %.2f", product.getWeight()));
+        textAmount.setText(String.format(Locale.getDefault(), "Amount: %d", product.getAmount()));
         textDescription.setText(product.getDescription());
         tvQuantity.setText(String.valueOf(storedQuantity));
     }

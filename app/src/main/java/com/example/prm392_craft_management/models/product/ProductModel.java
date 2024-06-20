@@ -6,13 +6,13 @@ import com.example.prm392_craft_management.models.image.ImageModel;
 import java.util.List;
 
 public class ProductModel {
-    private int id, status, discount;
+    private int id, status, discount, amount;
     private String name, description;
     private double price, weight, cost;
     private List<ImageModel> images;
     private List<FestivalModel> festivals;
 
-    public ProductModel(int id, int status, int discount, String name, String description, double price, double weight, double cost, List<ImageModel> images, List<FestivalModel> festivals) {
+    public ProductModel(int id, int status, int discount, int amount, String name, String description, double price, double weight, double cost, List<ImageModel> images, List<FestivalModel> festivals) {
         this.id = id;
         this.status = status;
         this.discount = discount;
@@ -21,8 +21,17 @@ public class ProductModel {
         this.price = price;
         this.weight = weight;
         this.cost = cost;
+        this.amount = amount;
         this.images = images;
         this.festivals = festivals;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 
     public int getId() {

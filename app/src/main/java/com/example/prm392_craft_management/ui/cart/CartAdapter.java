@@ -7,9 +7,9 @@ import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,15 +34,32 @@ import retrofit2.Response;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     private final List<CartModel> cartList;
+    private boolean[] itemSelected;
 
     public CartAdapter(List<CartModel> cartList) {
         this.cartList = cartList;
+        itemSelected = new boolean[cartList.size()];
     }
+
+    public List<CartModel> getCartList() {
+        return cartList;
+    }
+
+    public boolean[] getItemSelected() {
+        return itemSelected;
+    }
+
+    public void setItemSelected(int position, boolean isSelected) {
+        itemSelected[position] = isSelected;
+    }
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         LinearLayout container_cart;
         TextView tvCartItemName, tvCartItemPrice, tvCartItemQuantity;
         ImageView ivCartItemImage, ivDeleteItem;
+
+        CheckBox checkBox;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -52,6 +69,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             tvCartItemQuantity = itemView.findViewById(R.id.tvCartItemQuantity);
             ivDeleteItem = itemView.findViewById(R.id.ivDeleteItem);
             container_cart = itemView.findViewById(R.id.container_cart);
+            checkBox = itemView.findViewById(R.id.checkbox_select_item);
         }
     }
 
@@ -76,6 +94,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             String imageUrl = imageModel.getUrl();
             Glide.with(holder.ivCartItemImage.getContext()).load(imageUrl).into(holder.ivCartItemImage);
         }
+
+        holder.checkBox.setChecked(itemSelected[position]);
+        holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            itemSelected[position] = isChecked;
+            ((CartActivity) holder.itemView.getContext()).checkIfAllSelected();
+            ((CartActivity) holder.itemView.getContext()).updateCancelButtonState();
+            ((CartActivity) holder.itemView.getContext()).onCheckboxStateChanged();
+        });
 
         holder.container_cart.setOnClickListener(view -> {
             Intent intent = new Intent(view.getContext(), ProductDetailActivity.class);
@@ -127,6 +153,34 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     @Override
     public int getItemCount() {
         return cartList.size();
+    }
+
+    public void updateCartList(List<CartModel> newCartList) {
+        cartList.clear();
+        cartList.addAll(newCartList);
+        itemSelected = new boolean[newCartList.size()];
+    }
+
+    public boolean areAllItemsSelected() {
+        for (boolean isSelected : itemSelected) {
+            if (!isSelected) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean isItemSelected(int position) {
+        return itemSelected[position];
+    }
+
+    public boolean areAnyItemsSelected() {
+        for (boolean isSelected : itemSelected) {
+            if (isSelected) {
+                return true;
+            }
+        }
+        return false;
     }
 }
 
