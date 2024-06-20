@@ -1,9 +1,13 @@
 package com.example.prm392_craft_management.ui.cart;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,7 +24,9 @@ import com.example.prm392_craft_management.models.cart.CartModel;
 import com.example.prm392_craft_management.models.cart.CartResponseModel;
 import com.example.prm392_craft_management.repositories.CartRepository;
 import com.example.prm392_craft_management.services.CartService;
+import com.example.prm392_craft_management.ui.checkout.CheckoutActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -34,23 +40,53 @@ public class CartActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     TextView tvTotalPrice;
     TextView tvTotalItems;
+    Button buttonCheckout, buttonCancel;
+    CartAdapter cartAdapter;
+    private boolean isSelectAllProgrammaticUpdate = false;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
         setTitle("Cart");
+        cartAdapter = new CartAdapter(new ArrayList<>());
         buttonBack = findViewById(R.id.button_back);
         ivEmptyCart = findViewById(R.id.ivEmptyCart);
         recyclerView = findViewById(R.id.rvCartItems);
         tvTotalPrice = findViewById(R.id.tvTotalPrice);
         tvTotalItems = findViewById(R.id.tvTotalItems);
+        buttonCheckout = findViewById(R.id.button_checkout);
+        buttonCancel = findViewById(R.id.button_cancel);
 
-
+        buttonCancel.setEnabled(false);
         buttonBack.setOnClickListener(view -> getOnBackPressedDispatcher().onBackPressed());
 
-        updateCartUI();
+        buttonCheckout.setOnClickListener(view -> {
+            Intent intent = new Intent(CartActivity.this, CheckoutActivity.class);
+            startActivity(intent);
+        });
 
+        CheckBox selectAllCheckbox = findViewById(R.id.checkbox_select_all);
+        selectAllCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (!isSelectAllProgrammaticUpdate) {
+                for (int i = 0; i < cartAdapter.getItemCount(); i++) {
+                    cartAdapter.setItemSelected(i, isChecked);
+                }
+                cartAdapter.notifyDataSetChanged();
+            }
+        });
+
+        buttonCancel.setOnClickListener(view -> {
+            for (int i = 0; i < cartAdapter.getItemCount(); i++) {
+                cartAdapter.setItemSelected(i, false);
+            }
+            cartAdapter.notifyDataSetChanged();
+
+            updateCancelButtonState();
+        });
+
+        updateCartUI();
     }
 
     @Override
@@ -71,15 +107,12 @@ public class CartActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     List<CartModel> carts = response.body().getCart();
                     int totalItems = response.body().getTotal_items();
-                    double totalPrice = 0;
-
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putInt("TOTAL_ITEMS", totalItems);
                     editor.apply();
 
                     RecyclerView recyclerView = findViewById(R.id.rvCartItems);
                     ImageView ivEmptyCart = findViewById(R.id.ivEmptyCart);
-                    TextView tvTotalPrice = findViewById(R.id.tvTotalPrice);
                     TextView tvTotalItems = findViewById(R.id.tvTotalItems);
 
                     if (carts.isEmpty()) {
@@ -88,14 +121,10 @@ public class CartActivity extends AppCompatActivity {
                     } else {
                         ivEmptyCart.setVisibility(View.GONE);
                         recyclerView.setVisibility(View.VISIBLE);
-                        CartAdapter adapter = new CartAdapter(carts);
+                        cartAdapter = new CartAdapter(carts);
                         recyclerView.setLayoutManager(new LinearLayoutManager(CartActivity.this));
-                        recyclerView.setAdapter(adapter);
+                        recyclerView.setAdapter(cartAdapter);
                         tvTotalItems.setText("Total Items: " + totalItems);
-                        for (CartModel cart : carts) {
-                            totalPrice += cart.getAmount() * cart.getPrice();
-                        }
-                        tvTotalPrice.setText(String.format(Locale.getDefault(), "Total Price: $%.2f", totalPrice));
                     }
                 }
             }
@@ -105,5 +134,64 @@ public class CartActivity extends AppCompatActivity {
                 Toast.makeText(CartActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void checkIfAllSelected() {
+        isSelectAllProgrammaticUpdate = true;
+        CheckBox selectAllCheckbox = findViewById(R.id.checkbox_select_all);
+        selectAllCheckbox.setChecked(cartAdapter.areAllItemsSelected());
+        isSelectAllProgrammaticUpdate = false;
+    }
+
+    public void updateCancelButtonState() {
+        buttonCancel.setEnabled(cartAdapter.areAnyItemsSelected());
+    }
+
+    public void onCheckboxStateChanged() {
+        updateTotalPrice();
+        updateTotalItems();
+    }
+
+    private double calculateTotalPrice() {
+        double totalPrice = 0.0;
+
+        if (cartAdapter != null) {
+            List<CartModel> cartList = cartAdapter.getCartList();
+            for (int i = 0; i < cartList.size(); i++) {
+                if (cartAdapter.isItemSelected(i)) {
+                    CartModel cart = cartList.get(i);
+                    totalPrice += cart.getAmount() * cart.getPrice();
+                }
+            }
+        }
+
+        return totalPrice;
+    }
+
+    private int calculateSelectedItemCount() {
+        int count = 0;
+        if (cartAdapter != null) {
+            for (int i = 0; i < cartAdapter.getItemCount(); i++) {
+                if (cartAdapter.isItemSelected(i)) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    private void updateTotalPrice() {
+        double totalPrice = calculateTotalPrice();
+
+        TextView tvTotalPrice = findViewById(R.id.tvTotalPrice);
+        tvTotalPrice.setText(String.format(Locale.getDefault(), "Total Price: $%.2f", totalPrice));
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void updateTotalItems() {
+        int selectedItemCount = calculateSelectedItemCount();
+
+        Button buttonCheckout = findViewById(R.id.button_checkout);
+        buttonCheckout.setText("Buy Now(" + selectedItemCount + ")");
     }
 }

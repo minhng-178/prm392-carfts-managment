@@ -16,9 +16,14 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.bumptech.glide.Glide;
 import com.example.prm392_craft_management.MainActivity;
+import com.example.prm392_craft_management.R;
 import com.example.prm392_craft_management.databinding.FragmentProfileBinding;
 import com.example.prm392_craft_management.ui.login.LoginActivity;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 
 import java.util.Objects;
 
@@ -26,17 +31,19 @@ import java.util.Objects;
 public class ProfileFragment extends Fragment {
 
     private FragmentProfileBinding binding;
+    GoogleSignInClient mGoogleSignInClient;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        ProfileViewModel profileViewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
         binding = FragmentProfileBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("User_Info", Context.MODE_PRIVATE);
         String username = sharedPreferences.getString("USERNAME", "");
+
         String role = sharedPreferences.getString("ROLE", "");
         String token = sharedPreferences.getString("TOKEN", "");
+        String photoUrl = sharedPreferences.getString("PHOTO_URL", "");
 
         TextView usernameTextView = binding.username;
         TextView roleTextView = binding.role;
@@ -56,6 +63,11 @@ public class ProfileFragment extends Fragment {
             roleTextView.setText(role);
             loginButton.setVisibility(View.GONE);
             logoutButton.setVisibility(View.VISIBLE);
+
+            Glide.with(this)
+                    .load(photoUrl)
+                    .placeholder(R.drawable.avatar)
+                    .into(profileImageView);
         }
 
 
@@ -65,13 +77,18 @@ public class ProfileFragment extends Fragment {
         });
 
         logoutButton.setOnClickListener(v -> {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.clear();
-            editor.apply();
-            Toast.makeText(getActivity(), "Logout Successful", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(getActivity(), MainActivity.class);
-            startActivity(intent);
-
+            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestEmail()
+                    .build();
+            mGoogleSignInClient = GoogleSignIn.getClient(v.getContext(), gso);
+            mGoogleSignInClient.signOut().addOnSuccessListener(getActivity(), task -> {
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.clear();
+                editor.apply();
+                Toast.makeText(getActivity(), "Logout Successful", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                startActivity(intent);
+            });
         });
 
         return root;
