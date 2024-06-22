@@ -1,7 +1,9 @@
 package com.example.prm392_craft_management.ui.login;
 
+
 import android.content.Intent;
 import android.content.SharedPreferences;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -15,12 +17,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.prm392_craft_management.MainActivity;
 import com.example.prm392_craft_management.R;
-import com.example.prm392_craft_management.models.account.AccountModel;
 import com.example.prm392_craft_management.models.account.AccountRequestModel;
 import com.example.prm392_craft_management.models.account.AccountResponseModel;
 import com.example.prm392_craft_management.repositories.AccountRepository;
 import com.example.prm392_craft_management.services.AccountService;
 import com.example.prm392_craft_management.ui.register.RegisterActivity;
+import com.example.prm392_craft_management.utils.NotificationUtils;
 import com.example.prm392_craft_management.utils.ValidationUtils;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -129,9 +131,6 @@ public class LoginActivity extends AppCompatActivity {
         signInButton.setClickable(false);
         signInButton.setEnabled(false);
 
-        Log.d("TAG", "Username: " + loginAccount.getUsername());
-        Log.d("TAG", "Password: " + loginAccount.getPassword());
-
         accountService.login(loginAccount).enqueue(new Callback<AccountResponseModel>() {
             @Override
             public void onResponse(@NonNull Call<AccountResponseModel> call, @NonNull Response<AccountResponseModel> response) {
@@ -197,7 +196,6 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(@NonNull Call<AccountResponseModel> call, @NonNull Response<AccountResponseModel> response) {
                     if (response.isSuccessful()) {
-                        Log.d("TAG", "onResponse: " + response.body().getMessage());
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         SharedPreferences sharedPreferences = getSharedPreferences("User_Info", MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -209,7 +207,7 @@ public class LoginActivity extends AppCompatActivity {
                         editor.putString("ROLE", response.body().getResult().getUser().getRole().getName());
                         editor.putString("USER_ID", String.valueOf(response.body().getResult().getUser().getId()));
                         editor.apply();
-                        Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
+                        showNotification();
                         startActivity(intent);
                         finish();
                     } else {
@@ -244,5 +242,10 @@ public class LoginActivity extends AppCompatActivity {
         } catch (ApiException e) {
             Log.w("TAG", "signInResult:failed code=" + e.getStatusCode());
         }
+    }
+
+    private void showNotification() {
+        NotificationUtils notificationUtils = new NotificationUtils(this, "CHANNEL_ID");
+        notificationUtils.showNotification("Login Successful!", "Welcome back to our app");
     }
 }

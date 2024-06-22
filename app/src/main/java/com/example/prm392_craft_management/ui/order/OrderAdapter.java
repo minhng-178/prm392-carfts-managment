@@ -60,10 +60,10 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            containerRecommended = itemView.findViewById(R.id.container_order);
-            imageOrder           = itemView.findViewById(R.id.item_order_image);
-            textName             = itemView.findViewById(R.id.item_order_name);
-            textStatusOrder      = itemView.findViewById(R.id.item_order_status_order);
+            containerRecommended = itemView.findViewById(R.id.container_confirm);
+            imageOrder           = itemView.findViewById(R.id.item_confirm_image);
+            textName             = itemView.findViewById(R.id.item_confirm_name);
+            textStatusOrder      = itemView.findViewById(R.id.item_confirm_price);
         }
     }
 }

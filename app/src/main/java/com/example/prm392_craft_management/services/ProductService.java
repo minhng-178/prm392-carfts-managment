@@ -14,7 +14,9 @@ public interface ProductService {
     @GET(PRODUCT)
     Call<ProductResponseModel> getAllProducts(
             @Query("status") int status,
-            @Query("order_direction") String orderDirection
+            @Query("order_direction") String orderDirection,
+            @Query("page") int page,
+            @Query("page_size") int pageSize
     );
 
     @GET(PRODUCT + "/{id}")
