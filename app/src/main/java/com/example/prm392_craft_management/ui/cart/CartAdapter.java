@@ -35,6 +35,8 @@ import retrofit2.Response;
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     private final List<CartModel> cartList;
     private boolean[] itemSelected;
+    private List<Integer> selectedCartIds = new ArrayList<>();
+
 
     public CartAdapter(List<CartModel> cartList) {
         this.cartList = cartList;
@@ -51,7 +53,15 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
     public void setItemSelected(int position, boolean isSelected) {
         itemSelected[position] = isSelected;
+        if (isSelected) {
+            int cartId = cartList.get(position).getCart_id();
+            selectedCartIds.add(cartId);
+        } else {
+            int cartId = cartList.get(position).getCart_id();
+            selectedCartIds.remove(Integer.valueOf(cartId));
+        }
     }
+
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
