@@ -42,14 +42,40 @@ public class CartActivity extends AppCompatActivity {
     TextView tvTotalItems;
     Button buttonCheckout, buttonCancel;
     CartAdapter cartAdapter;
+    CheckBox selectAllCheckbox;
     private boolean isSelectAllProgrammaticUpdate = false;
-
+    List<Integer> selectedCartIds = new ArrayList<>();
+    List<CartModel> carts;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
-        setTitle("Cart");
+
+        initComponents();
+        initListeners();
+        updateCartUI();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        updateCartUI();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateCartUI();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        selectAllCheckbox.setChecked(false);
+    }
+
+    private void initComponents() {
         cartAdapter = new CartAdapter(new ArrayList<>());
         buttonBack = findViewById(R.id.button_back);
         ivEmptyCart = findViewById(R.id.ivEmptyCart);
@@ -58,16 +84,11 @@ public class CartActivity extends AppCompatActivity {
         tvTotalItems = findViewById(R.id.tvTotalItems);
         buttonCheckout = findViewById(R.id.button_checkout);
         buttonCancel = findViewById(R.id.button_cancel);
+    }
 
+    private void initListeners() {
         buttonCancel.setEnabled(false);
-        buttonBack.setOnClickListener(view -> getOnBackPressedDispatcher().onBackPressed());
-
-        buttonCheckout.setOnClickListener(view -> {
-            Intent intent = new Intent(CartActivity.this, CheckoutActivity.class);
-            startActivity(intent);
-        });
-
-        CheckBox selectAllCheckbox = findViewById(R.id.checkbox_select_all);
+        selectAllCheckbox = findViewById(R.id.checkbox_select_all);
         selectAllCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (!isSelectAllProgrammaticUpdate) {
                 for (int i = 0; i < cartAdapter.getItemCount(); i++) {
@@ -77,6 +98,26 @@ public class CartActivity extends AppCompatActivity {
             }
         });
 
+        buttonCheckout.setOnClickListener(view -> {
+            boolean hasSelectedItems = false;
+            for (int i = 0; i < cartAdapter.getItemCount(); i++) {
+                if (cartAdapter.isItemSelected(i)) {
+                    hasSelectedItems = true;
+                    selectedCartIds.add(carts.get(i).getCart_id());
+                }
+            }
+
+            if (hasSelectedItems) {
+                cartAdapter.updateCartList(carts);
+                Intent intent = new Intent(CartActivity.this, CheckoutActivity.class);
+                intent.putIntegerArrayListExtra("SELECTED_CART_IDS", (ArrayList<Integer>) selectedCartIds);
+                startActivity(intent);
+
+
+            } else {
+                Toast.makeText(this, "Please select at least one item.", Toast.LENGTH_SHORT).show();
+            }
+        });
         buttonCancel.setOnClickListener(view -> {
             for (int i = 0; i < cartAdapter.getItemCount(); i++) {
                 cartAdapter.setItemSelected(i, false);
@@ -86,13 +127,9 @@ public class CartActivity extends AppCompatActivity {
             updateCancelButtonState();
         });
 
-        updateCartUI();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        updateCartUI();
+        buttonBack.setOnClickListener(view -> {
+            getOnBackPressedDispatcher().onBackPressed();
+        });
     }
 
     private void updateCartUI() {
@@ -105,7 +142,7 @@ public class CartActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call<CartResponseModel> call, @NonNull Response<CartResponseModel> response) {
                 if (response.isSuccessful()) {
-                    List<CartModel> carts = response.body().getCart();
+                    carts = response.body().getCart();
                     int totalItems = response.body().getTotal_items();
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putInt("TOTAL_ITEMS", totalItems);
@@ -118,6 +155,7 @@ public class CartActivity extends AppCompatActivity {
                     if (carts.isEmpty()) {
                         ivEmptyCart.setVisibility(View.VISIBLE);
                         recyclerView.setVisibility(View.GONE);
+                        tvTotalItems.setText("Total Items: 0");
                     } else {
                         ivEmptyCart.setVisibility(View.GONE);
                         recyclerView.setVisibility(View.VISIBLE);

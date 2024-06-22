@@ -48,7 +48,7 @@ public class SearchViewModel extends ViewModel {
 
     private void loadProducts() {
         ProductService service = ProductRepository.getProductService();
-        service.getAllProducts(1, "asc").enqueue(new Callback<ProductResponseModel>() {
+        service.getAllProducts(1, "asc", 1, 100).enqueue(new Callback<ProductResponseModel>() {
             @Override
             public void onResponse(@NonNull Call<ProductResponseModel> call, @NonNull Response<ProductResponseModel> response) {
                 if (response.isSuccessful()) {

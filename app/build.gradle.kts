@@ -45,6 +45,7 @@ dependencies {
     implementation(libs.navigation.ui)
     implementation(libs.play.services.maps)
     implementation(libs.play.services.location)
+    implementation(libs.core)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
@@ -54,4 +55,5 @@ dependencies {
     implementation(libs.play.services.auth)
     implementation(libs.google.maps.services)
     implementation(libs.slf4j.simple)
+    implementation(libs.webkit)
 }
