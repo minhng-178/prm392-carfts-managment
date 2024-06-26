@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.chat.MessageActivity">
+
+    <ImageButton
+        android:id="@+id/button_back"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_margin="20dp"
+        android:background="@drawable/bg_back"
+        android:elevation="10dp"
+        android:src="@drawable/ic_back" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycleview_chat"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/edittext_chat"
+        android:layout_below="@+id/button_back" />
+
+    <EditText
+        android:id="@+id/edittext_chat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_toStartOf="@+id/text_send"
+        android:background="@drawable/bg_edit_text"
+        android:hint="Message..."
+        android:inputType="textMultiLine"
+        android:padding="8dp"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/text_send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="16dp"
+        android:padding="10dp"
+        android:text="Send"
+        android:textColor="@color/light_sea_green"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:id="@+id/image_send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="16dp"
+        android:layout_toStartOf="@+id/text_send"
+        android:padding="8dp"
+        android:src="@drawable/ic_send"
+        app:tint="@color/light_sea_green" />
+</RelativeLayout>

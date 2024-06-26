@@ -60,6 +60,11 @@
             android:exported="true"
             android:label="Payment" />
 
+        <activity
+            android:name=".ui.chat.MessageActivity"
+            android:exported="true"
+            android:label="Chat" />
+
     </application>
 
 </manifest>

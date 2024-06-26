@@ -56,4 +56,5 @@ dependencies {
     implementation(libs.google.maps.services)
     implementation(libs.slf4j.simple)
     implementation(libs.webkit)
+    implementation ("io.socket:socket.io-client:2.1.0")
 }
