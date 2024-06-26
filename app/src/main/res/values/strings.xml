@@ -4,8 +4,7 @@
     <string name="title_search">Search</string>
     <string name="title_order">Order</string>
     <string name="title_profile">Profile</string>
-
     <string name="web_client_id">186480784275-9vfu4mq81p0piu3bajf6pehhe4sea5s5.apps.googleusercontent.com</string>
-    <string name="map_api_key">AIzaSyDR9FF34hlniTwzvahtYxEfKjLEwKyB3SU</string>
+    <string name="map_api_key">AIzaSyBrDoXS2sXVlChAl6IV1mmsX_Tm7kwURuU</string>
     <string name="title_activity_checkout">Checkout</string>
 </resources>

@@ -65,6 +65,7 @@ public class CheckoutActivity extends AppCompatActivity implements OnMapReadyCal
     Location currentLocation;
     FusedLocationProviderClient fusedLocationProviderClient;
     GeoApiContext geoApiContext;
+    LatLng latLng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,9 +88,9 @@ public class CheckoutActivity extends AppCompatActivity implements OnMapReadyCal
         etAddress = findViewById(R.id.etAddress);
         btnCheckout = findViewById(R.id.btnCheckout);
         buttonBack = findViewById(R.id.button_back);
-//        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-//                .findFragmentById(R.id.map);
-//        mapFragment.getMapAsync(this);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
     }
 
     private void initListeners() {
@@ -184,23 +185,23 @@ public class CheckoutActivity extends AppCompatActivity implements OnMapReadyCal
     }
 
     private void getLastLocation() {
-//        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, FINE_PERMISSION_CODE);
-//            return;
-//        }
-//        Task<Location> task = fusedLocationProviderClient.getLastLocation();
-//        task.addOnSuccessListener(new OnSuccessListener<Location>() {
-//            @Override
-//            public void onSuccess(Location location) {
-//                if (location != null) {
-//                    currentLocation = location;
-//                    latLng = new LatLng(location.getLatitude(), location.getLongitude());
-//                    calculateDistance(SPECIFIC_ORIGIN, latLng);
-//                    SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-//                    mapFragment.getMapAsync(CheckoutActivity.this);
-//                }
-//            }
-//        });
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, FINE_PERMISSION_CODE);
+            return;
+        }
+        Task<Location> task = fusedLocationProviderClient.getLastLocation();
+        task.addOnSuccessListener(new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                if (location != null) {
+                    currentLocation = location;
+                    latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                    calculateDistance(latLng, SPECIFIC_ORIGIN);
+                    SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+                    mapFragment.getMapAsync(CheckoutActivity.this);
+                }
+            }
+        });
     }
 
     private void calculateDistance(LatLng origin, LatLng destination) {

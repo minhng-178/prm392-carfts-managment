@@ -38,19 +38,18 @@
             android:hint="Enter phone number"
             android:textSize="20sp" />
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginVertical="10dp"
+            android:layout_weight="1">
 
-<!--        <FrameLayout-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="0dp"-->
-        <!--            android:layout_marginVertical="10dp"-->
-        <!--            android:layout_weight="1">-->
-
-        <!--            <fragment-->
-        <!--                android:id="@+id/map"-->
-        <!--                android:name="com.google.android.gms.maps.SupportMapFragment"-->
-        <!--                android:layout_width="match_parent"-->
-        <!--                android:layout_height="match_parent" />-->
-        <!--        </FrameLayout>-->
+            <fragment
+                android:id="@+id/map"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </FrameLayout>
 
         <Button
             android:id="@+id/btnCheckout"
