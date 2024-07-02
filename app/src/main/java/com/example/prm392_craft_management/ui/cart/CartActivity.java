@@ -14,7 +14,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -162,6 +164,8 @@ public class CartActivity extends AppCompatActivity {
                         recyclerView.setLayoutManager(new LinearLayoutManager(CartActivity.this));
                         recyclerView.setAdapter(cartAdapter);
                         tvTotalItems.setText("Total Items: " + totalItems);
+                        attachSwipeToDelete();
+
                     }
                 }
             }
@@ -171,6 +175,67 @@ public class CartActivity extends AppCompatActivity {
                 Toast.makeText(CartActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void attachSwipeToDelete() {
+        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                final int position = viewHolder.getAdapterPosition();
+                showDeleteConfirmationDialog(position);
+            }
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+    }
+
+    private void showDeleteConfirmationDialog(final int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(CartActivity.this);
+        builder.setMessage("Are you sure you want to delete this item?")
+                .setPositiveButton("Yes", (dialog, id) -> {
+                    SharedPreferences sharedPreferences = getSharedPreferences("User_Info", MODE_PRIVATE);
+                    String userId = sharedPreferences.getString("USER_ID", "");
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putInt("PRODUCT_" + carts.get(position).getProduct_id(), 1);
+                    editor.apply();
+
+                    List<CartModel.CartProduct> cartProducts = new ArrayList<>();
+                    cartProducts.add(new CartModel.CartProduct(carts.get(position).getProduct_id(), 0));
+                    CartModel cart = new CartModel(Integer.parseInt(userId), cartProducts);
+
+                    CartService cartService = CartRepository.getCartService();
+                    cartService.postUserCart(cart).enqueue(new Callback<CartResponseModel>() {
+                        @Override
+                        public void onResponse(@NonNull Call<CartResponseModel> call, @NonNull Response<CartResponseModel> response) {
+                            if (response.isSuccessful()) {
+                                carts.remove(position);
+                                cartAdapter.notifyItemRemoved(position);
+                                Toast.makeText(CartActivity.this, "Item removed from cart", Toast.LENGTH_SHORT).show();
+                                updateCartUI();
+                            } else {
+                                Toast.makeText(CartActivity.this, "Failed to remove item", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(@NonNull Call<CartResponseModel> call, @NonNull Throwable throwable) {
+                            Toast.makeText(CartActivity.this, "Error while removing item", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                })
+                .setNegativeButton("No", (dialog, id) -> {
+                    dialog.dismiss();
+                    cartAdapter.notifyItemChanged(position);
+                });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
     public void checkIfAllSelected() {

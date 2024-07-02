@@ -42,7 +42,7 @@ import retrofit2.Response;
 public class ProductDetailActivity extends AppCompatActivity {
     ImageButton buttonBack;
     Button addToCart, btnDecreaseQuantity, btnIncreaseQuantity;
-    TextView textName, textFestival, textPrice, textWeight, textDescription, textAmount,rate, tvQuantity;
+    TextView textName, textFestival, textPrice, textWeight, textDescription, textAmount, rate, tvQuantity;
     ImageView imageProduct;
     RatingBar rating;
     private int productId;
@@ -57,6 +57,23 @@ public class ProductDetailActivity extends AppCompatActivity {
             getSupportActionBar().hide();
         }
 
+        initComponents();
+        initListeners();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fetchProductDetailsAndUpdateUI();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        fetchProductDetailsAndUpdateUI();
+    }
+
+    private void initComponents() {
         addToCart = findViewById(R.id.addToCart);
         buttonBack = findViewById(R.id.button_back);
         textName = findViewById(R.id.text_name);
@@ -71,17 +88,23 @@ public class ProductDetailActivity extends AppCompatActivity {
         btnDecreaseQuantity = findViewById(R.id.btnDecreaseQuantity);
         btnIncreaseQuantity = findViewById(R.id.btnIncreaseQuantity);
         tvQuantity = findViewById(R.id.tvQuantity);
-
         productId = getIntent().getIntExtra("PRODUCT_ID", -1);
+    }
+
+    private void initListeners() {
+        fetchProductDetailsAndUpdateUI();
+        buttonBack.setOnClickListener(view -> getOnBackPressedDispatcher().onBackPressed());
+        addToCart.setOnClickListener(view -> addToCart());
+    }
+
+    private void fetchProductDetailsAndUpdateUI() {
         if (productId != -1) {
             ProductService productService = ProductRepository.getProductService();
             productService.getProductById(productId).enqueue(new Callback<ProductModel>() {
                 @Override
                 public void onResponse(@NonNull Call<ProductModel> call, @NonNull Response<ProductModel> response) {
-                    if (response.isSuccessful()) {
-                        ProductModel product = response.body();
-                        assert product != null;
-                        updateUI(product);
+                    if (response.isSuccessful() && response.body() != null) {
+                        updateUI(response.body());
                     }
                 }
 
@@ -91,21 +114,12 @@ public class ProductDetailActivity extends AppCompatActivity {
                 }
             });
         }
-
-        buttonBack.setOnClickListener(view -> getOnBackPressedDispatcher().onBackPressed());
-
-
-
-        addToCart.setOnClickListener(view -> {
-            addToCart();
-        });
     }
 
     private void updateUI(ProductModel product) {
         SharedPreferences sharedPreferences = getSharedPreferences("User_Info", MODE_PRIVATE);
         int storedQuantity = sharedPreferences.getInt("PRODUCT_" + productId, 1);
         int[] quantity = {storedQuantity};
-
         btnDecreaseQuantity.setOnClickListener(view -> {
             if (quantity[0] > 1) {
                 quantity[0]--;
@@ -135,7 +149,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             Glide.with(imageProduct.getContext()).load(imageUrl).into(imageProduct);
         }
 
-        Log.d("TAG", "updateUI: "+ product.getAmount());
+        Log.d("TAG", "updateUI: " + product.getAmount());
 
         textPrice.setText(String.format(Locale.getDefault(), "%.2f", product.getPrice()));
         textWeight.setText(String.format(Locale.getDefault(), "Weight: %.2f", product.getWeight()));
@@ -161,9 +175,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         List<CartModel.CartProduct> cartProducts = new ArrayList<>();
         cartProducts.add(new CartModel.CartProduct(productId, currentQuantity));
-
         CartModel cart = new CartModel(Integer.parseInt(userId), cartProducts);
-
         CartService cartService = CartRepository.getCartService();
         cartService.postUserCart(cart).enqueue(new Callback<CartResponseModel>() {
             @Override
