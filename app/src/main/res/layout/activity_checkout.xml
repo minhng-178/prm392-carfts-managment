@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp"
     tools:context=".ui.checkout.CheckoutActivity">
 
     <ImageButton
@@ -19,23 +18,51 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/button_back"
+        android:layout_marginHorizontal="10dp"
         android:gravity="center"
         android:orientation="vertical">
-
-        <EditText
-            android:id="@+id/etAddress"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:hint="Enter address"
-            android:textSize="20sp" />
 
         <EditText
             android:id="@+id/etPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
+            android:background="@drawable/login_edit_grad"
             android:hint="Enter phone number"
+            android:padding="10dp"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/etAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/login_edit_grad"
+            android:hint="Enter address"
+            android:padding="10dp"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tvDistance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/login_edit_grad"
+            android:padding="10dp"
+            android:text="Distance"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/btnSetLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_circle_green_line"
+            android:drawableEnd="@drawable/ic_location"
+            android:drawablePadding="10dp"
+            android:paddingBottom="5dp"
+            android:text="Set Current Location"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
             android:textSize="20sp" />
 
         <FrameLayout

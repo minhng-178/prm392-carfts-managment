@@ -52,9 +52,9 @@ public class SearchFragment extends Fragment {
                 searchAdapter.listProduct = productModels;
                 searchAdapter.notifyDataSetChanged();
                 if (productModels.isEmpty()){
-                    binding.textNoProducts.setVisibility(View.VISIBLE);
+                    binding.searchView.setVisibility(View.VISIBLE);
                 } else {
-                    binding.textNoProducts.setVisibility(View.GONE);
+                    binding.searchView.setVisibility(View.GONE);
                 }
             }
         });

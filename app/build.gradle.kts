@@ -32,11 +32,11 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
 dependencies {
-
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
@@ -46,15 +46,16 @@ dependencies {
     implementation(libs.play.services.maps)
     implementation(libs.play.services.location)
     implementation(libs.core)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.ext.junit)
-    androidTestImplementation(libs.espresso.core)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.glide)
     implementation(libs.play.services.auth)
     implementation(libs.google.maps.services)
+    implementation(libs.places)
     implementation(libs.slf4j.simple)
     implementation(libs.webkit)
-    implementation ("io.socket:socket.io-client:2.1.0")
+    implementation (libs.socket.io.client)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.ext.junit)
+    androidTestImplementation(libs.espresso.core)
 }
