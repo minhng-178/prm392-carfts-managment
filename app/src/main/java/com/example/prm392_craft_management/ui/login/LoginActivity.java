@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import com.example.prm392_craft_management.MainActivity;
 import com.example.prm392_craft_management.R;
 import com.example.prm392_craft_management.models.account.AccountRequestModel;
@@ -47,6 +48,7 @@ public class LoginActivity extends AppCompatActivity {
     SignInButton signInGoogle;
     GoogleSignInClient mGoogleSignInClient;
     private static final int RC_SIGN_IN = 1000;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
