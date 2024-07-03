@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -19,6 +20,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.prm392_craft_management.databinding.ActivityMainBinding;
+import com.example.prm392_craft_management.ui.chat.MessageActivity;
 import com.example.prm392_craft_management.ui.cart.CartActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -76,6 +78,26 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onPrepareOptionsMenu(menu);
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        String name = "Admin";
+        SharedPreferences sharedPreferences = getSharedPreferences("User_Info", MODE_PRIVATE);
+        String userId = sharedPreferences.getString("USER_ID", "");
+        int itemId = item.getItemId();
+        if (Integer.parseInt(userId) == -1) {
+            Toast.makeText(this, "Please Login", Toast.LENGTH_SHORT).show();
+        } else {
+            if (itemId == R.id.action_message) {
+                Intent chatIntent = new Intent(this, MessageActivity.class);
+                startActivity(chatIntent);
+                chatIntent.putExtra("name", name);
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     @Override
     protected void onStart() {
