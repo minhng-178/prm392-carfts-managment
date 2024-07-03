@@ -16,16 +16,22 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.prm392_craft_management.databinding.FragmentSearchBinding;
+import com.example.prm392_craft_management.models.festival.FestivalModel;
 import com.example.prm392_craft_management.models.product.ProductModel;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class SearchFragment extends Fragment {
 
     private FragmentSearchBinding binding;
 
     private SearchAdapter searchAdapter;
+    private Set<String> festivalSet;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -38,12 +44,15 @@ public class SearchFragment extends Fragment {
         recyclerView.setAdapter(searchAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        festivalSet = new HashSet<>();
+
         searchViewModel.getProducts().observe(getViewLifecycleOwner(), new Observer<List<ProductModel>>() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onChanged(List<ProductModel> productModels) {
                 searchAdapter.listProduct = productModels;
                 searchAdapter.notifyDataSetChanged();
+                updateChips(productModels);
             }
         });
         searchViewModel.getFilteredProducts().observe(getViewLifecycleOwner(), new Observer<List<ProductModel>>() {
@@ -74,5 +83,34 @@ public class SearchFragment extends Fragment {
         });
 
         return root;
+    }
+    private void updateChips(List<ProductModel> productModels) {
+        binding.chipGroup.removeAllViews();
+        festivalSet.clear();
+        addChip("Tất cả", true);
+
+        for (ProductModel product : productModels) {
+            for (FestivalModel festival : product.getFestivals()) {
+                if (!festivalSet.contains(festival.getName())) {
+                    festivalSet.add(festival.getName());
+                    addChip(festival.getName(), false);
+                }
+            }
+        }
+    }
+
+    private void addChip(String festivalName, boolean isDefault) {
+        Chip chip = new Chip(getContext());
+        chip.setText(festivalName);
+        chip.setCheckable(true);
+        chip.setChecked(isDefault);
+        chip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SearchViewModel searchViewModel = new ViewModelProvider(SearchFragment.this).get(SearchViewModel.class);
+                searchViewModel.filterProductsByFestival(festivalName);
+            }
+        });
+        binding.chipGroup.addView(chip);
     }
 }

@@ -76,4 +76,20 @@ public class SearchViewModel extends ViewModel {
         }
         mFilteredProducts.setValue(filteredList);
     }
+    public void filterProductsByFestival(String festivalName) {
+        if (festivalName.equals("Tất cả")) {
+            mFilteredProducts.setValue(mProducts.getValue());
+        } else {
+            List<ProductModel> filteredList = new ArrayList<>();
+            for (ProductModel product : mProducts.getValue()) {
+                for (FestivalModel festival : product.getFestivals()) {
+                    if (festival.getName().equals(festivalName)) {
+                        filteredList.add(product);
+                        break;
+                    }
+                }
+            }
+            mFilteredProducts.setValue(filteredList);
+        }
+    }
 }
