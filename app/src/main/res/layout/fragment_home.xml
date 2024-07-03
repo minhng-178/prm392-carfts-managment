@@ -85,15 +85,16 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_launcher_foreground" />
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_tet" />
 
             <TextView
                 android:id="@+id/textFestivalNamesFirst"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:text="Tet"
                 android:textSize="12sp" />
         </LinearLayout>
 
@@ -105,15 +106,16 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_launcher_foreground" />
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_trung_thu" />
 
             <TextView
                 android:id="@+id/textFestivalNamesSecond"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:text="Trung Thu"
                 android:textSize="12sp" />
         </LinearLayout>
 
@@ -125,15 +127,16 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_launcher_foreground" />
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_vua_hung" />
 
             <TextView
                 android:id="@+id/textFestivalNamesThird"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:text="Vua Hung"
                 android:textSize="12sp" />
         </LinearLayout>
 
@@ -145,9 +148,9 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_more" />
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_other" />
 
             <TextView
                 android:id="@+id/textFestivalNamesFourth"
@@ -162,6 +165,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="20dp"
         android:layout_below="@+id/container_choose_festival"
         android:background="@drawable/bg_half_rounded2"
         app:layout_constraintBottom_toBottomOf="parent"
