@@ -63,7 +63,7 @@ public class SearchFragment extends Fragment {
                 if (productModels.isEmpty()){
                     binding.searchView.setVisibility(View.VISIBLE);
                 } else {
-                    binding.searchView.setVisibility(View.GONE);
+                    binding.searchView.setVisibility(View.VISIBLE);
                 }
             }
         });

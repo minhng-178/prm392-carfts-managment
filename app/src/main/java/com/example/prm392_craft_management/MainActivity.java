@@ -1,5 +1,6 @@
 package com.example.prm392_craft_management;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -7,10 +8,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -23,6 +26,7 @@ import com.example.prm392_craft_management.databinding.ActivityMainBinding;
 import com.example.prm392_craft_management.ui.chat.MessageActivity;
 import com.example.prm392_craft_management.ui.cart.CartActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -36,8 +40,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(MainActivity.this, new String[]{android.Manifest.permission.POST_NOTIFICATIONS}, 1);
+            if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1);
             }
         }
 
@@ -50,6 +54,27 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
+
+        navView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int id = item.getItemId();
+                if (id == R.id.navigation_home) {
+                    navController.navigate(R.id.navigation_home);
+                    return true;
+                } else if (id == R.id.navigation_search) {
+                    navController.navigate(R.id.navigation_search);
+                    return true;
+                } else if (id == R.id.navigation_order) {
+                    navController.navigate(R.id.navigation_order);
+                    return true;
+                } else if (id == R.id.navigation_profile) {
+                    navController.navigate(R.id.navigation_profile);
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     @Override
