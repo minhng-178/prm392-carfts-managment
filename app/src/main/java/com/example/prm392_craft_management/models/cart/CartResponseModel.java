@@ -1,20 +1,19 @@
 package com.example.prm392_craft_management.models.cart;
 
 
-
 import java.util.List;
 
 public class CartResponseModel {
-    private  int user_id;
-    private int total;
+    private int user_id;
+    private int total_items;
     private int page;
     private int size;
     private int total_pages;
     private List<CartModel> cart;
 
-    public CartResponseModel(int user_id, int total, int page, int size, int total_pages, List<CartModel> cart) {
+    public CartResponseModel(int user_id, int total_items, int page, int size, int total_pages, List<CartModel> cart) {
         this.user_id = user_id;
-        this.total = total;
+        this.total_items = total_items;
         this.page = page;
         this.size = size;
         this.total_pages = total_pages;
@@ -29,12 +28,12 @@ public class CartResponseModel {
         this.user_id = user_id;
     }
 
-    public int getTotal() {
-        return total;
+    public int getTotal_items() {
+        return total_items;
     }
 
-    public void setTotal(int total) {
-        this.total = total;
+    public void setTotal_items(int total_items) {
+        this.total_items = total_items;
     }
 
     public int getPage() {

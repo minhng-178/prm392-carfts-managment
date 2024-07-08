@@ -1,5 +1,7 @@
 package com.example.prm392_craft_management.models.account;
 
+import java.io.Serializable;
+
 public class AccountModel {
     int id;
     String username, password, retype_password, role, token;

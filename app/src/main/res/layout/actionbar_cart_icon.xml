@@ -1,0 +1,25 @@
+<!-- res/layout/actionbar_cart_icon.xml -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/cart_icon_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_cart" />
+
+    <TextView
+        android:id="@+id/cart_badge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@id/cart_icon_image"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/cart_badge_background"
+        android:gravity="center"
+        android:text="0"
+        android:textSize="11sp"
+        android:textColor="@color/white" />
+</RelativeLayout>

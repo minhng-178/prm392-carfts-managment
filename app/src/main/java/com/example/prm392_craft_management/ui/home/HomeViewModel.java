@@ -75,7 +75,7 @@ public class HomeViewModel extends ViewModel {
     private void loadProducts() {
         ProductService service = ProductRepository.getProductService();
 
-        service.getAllProducts().enqueue(new Callback<ProductResponseModel>() {
+        service.getAllProducts(1,"asc", 1, 4).enqueue(new Callback<ProductResponseModel>() {
             @Override
             public void onResponse(@NonNull Call<ProductResponseModel> call, @NonNull Response<ProductResponseModel> response) {
                 if (response.isSuccessful()) {
@@ -89,7 +89,7 @@ public class HomeViewModel extends ViewModel {
 
             @Override
             public void onFailure(@NonNull Call<ProductResponseModel> call, @NonNull Throwable t) {
-                mFestivals.postValue(null);
+                mProducts.postValue(null);
                 mError.setValue(t.getMessage());
             }
         });

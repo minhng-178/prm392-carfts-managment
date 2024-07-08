@@ -20,7 +20,7 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/item_recommended_image"
+            android:id="@+id/item_search_image"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:layout_margin="10dp"
@@ -29,24 +29,24 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/item_recommended_image"
+            android:layout_below="@+id/item_search_image"
             android:background="@color/white">
 
             <TextView
-                android:id="@+id/item_recommended_name"
+                android:id="@+id/item_search_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
-                android:layout_toStartOf="@+id/item_recommended_price"
+                android:layout_toStartOf="@+id/item_search_price"
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:text="Title"
                 android:textColor="@color/dark_late_gray" />
 
             <TextView
-                android:id="@+id/item_recommended_price"
+                android:id="@+id/item_search_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -61,18 +61,18 @@
             <ImageView
                 android:id="@+id/image_festival"
                 android:src="@drawable/ic_festival"
-                android:layout_below="@+id/item_recommended_name"
+                android:layout_below="@+id/item_search_name"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="2dp"
                 android:layout_width="12dp"
                 android:layout_height="12dp"/>
 
             <TextView
-                android:id="@+id/item_recommended_festival"
+                android:id="@+id/item_search_festival"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@+id/image_festival"
-                android:layout_below="@+id/item_recommended_name"
+                android:layout_below="@+id/item_search_name"
                 android:layout_marginStart="5dp"
                 android:text="Festival"
                 android:textColor="@color/dark_gray"

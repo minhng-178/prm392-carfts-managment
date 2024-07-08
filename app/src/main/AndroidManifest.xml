@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:allowBackup="true"
@@ -16,6 +19,14 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
 
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/map_api_key" />
+
+        <activity
+            android:name=".ui.checkout.CheckoutActivity"
+            android:exported="false"
+            android:label="@string/title_activity_checkout" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -34,6 +45,26 @@
         <activity
             android:name=".ui.details.ProductDetailActivity"
             android:exported="true" />
+        <activity
+            android:name=".ui.cart.CartActivity"
+            android:exported="true"
+            android:label="Cart" />
+
+        <activity
+            android:name=".ui.review.ReviewActivity"
+            android:exported="true"
+            android:label="Review" />
+
+        <activity
+            android:name=".ui.payment.PaymentActivity"
+            android:exported="true"
+            android:label="Payment" />
+
+        <activity
+            android:name=".ui.chat.MessageActivity"
+            android:exported="true"
+            android:label="Chat" />
+
     </application>
 
 </manifest>

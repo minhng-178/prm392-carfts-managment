@@ -2,12 +2,12 @@ package com.example.prm392_craft_management.ui.home;
 
 import android.content.Intent;
 import android.text.TextUtils;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -30,7 +30,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         this.listProduct = listProduct;
     }
 
-
     @NonNull
     @Override
     public HomeAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -44,7 +43,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         holder.textName.setText(list.getName());
         holder.textPrice.setText(String.valueOf(list.getPrice()));
 
-        // Set the festival names
         List<String> festivalNames = new ArrayList<>();
         for (FestivalModel festival : list.getFestivals()) {
             festivalNames.add(festival.getName());
@@ -66,18 +64,16 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
                 Intent intent = new Intent(v.getContext(), ProductDetailActivity.class);
                 intent.putExtra("PRODUCT_ID", list.getId());
                 v.getContext().startActivity(intent);
-                Toast.makeText(v.getContext(), "Clicked!", Toast.LENGTH_SHORT).show();
             }
         });
     }
-
 
     @Override
     public int getItemCount() {
         return listProduct.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         CardView containerRecommended;
         ImageView imageRecommended;
         TextView textPrice, textName, textFestival;
@@ -85,10 +81,10 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             containerRecommended = itemView.findViewById(R.id.container_recommended);
-            imageRecommended = itemView.findViewById(R.id.item_recommended_image);
-            textName = itemView.findViewById(R.id.item_recommended_name);
-            textPrice = itemView.findViewById(R.id.item_recommended_price);
-            textFestival = itemView.findViewById(R.id.item_recommended_festival);
+            imageRecommended = itemView.findViewById(R.id.item_search_image);
+            textName = itemView.findViewById(R.id.item_search_name);
+            textPrice = itemView.findViewById(R.id.item_search_price);
+            textFestival = itemView.findViewById(R.id.item_search_festival);
         }
     }
 }

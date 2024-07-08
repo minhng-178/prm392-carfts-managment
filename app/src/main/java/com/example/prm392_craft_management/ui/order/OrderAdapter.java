@@ -1,6 +1,5 @@
 package com.example.prm392_craft_management.ui.order;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,12 +16,14 @@ import com.example.prm392_craft_management.models.product.ProductModel;
 
 import java.util.List;
 
-public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHolder> {
+public class OrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<OrderModel> listOrder;
+
+    private static final int TYPE_HEADER = 0;
+    private static final int TYPE_ITEM = 1;
 
     public OrderAdapter(List<OrderModel> listOrder) {
         this.listOrder = listOrder;
-        Log.d("OrderAdapter", "OrderAdapter initialized with orders: " + listOrder.size());
     }
 
     public void setListOrder(List<OrderModel> listOrder) {
@@ -30,22 +31,41 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         notifyDataSetChanged();
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return listOrder.get(position) == null ? TYPE_HEADER : TYPE_ITEM;
+    }
+
     @NonNull
     @Override
-    public OrderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_order, parent, false);
-        return new OrderViewHolder(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (viewType == TYPE_HEADER) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_header, parent, false);
+            return new HeaderViewHolder(view);
+        } else {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_order, parent, false);
+            return new OrderViewHolder(view);
+        }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull OrderViewHolder holder, int position) {
-        OrderModel order = listOrder.get(position);
-        holder.bind(order);
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof OrderViewHolder) {
+            OrderModel order = listOrder.get(position);
+            ((OrderViewHolder) holder).bind(order);
+        } else {
+            ((HeaderViewHolder) holder).bind(getHeaderTitle(position));
+        }
     }
 
     @Override
     public int getItemCount() {
         return listOrder != null ? listOrder.size() : 0;
+    }
+
+    private String getHeaderTitle(int position) {
+        // Implement your logic to return header title based on position
+        return "Header Title";
     }
 
     static class OrderViewHolder extends RecyclerView.ViewHolder {
@@ -67,32 +87,23 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         public void bind(OrderModel order) {
             if (order.getProducts() != null && !order.getProducts().isEmpty()) {
                 ProductModel product = order.getProducts().get(0);
-
-                Log.d("OrderAdapter", "Order ID: " + order.getId());
-                Log.d("OrderAdapter", "Product Name: " + product.getName());
-                Log.d("OrderAdapter", "Order Status: " + order.getStatus());
-
                 textViewProductName.setText(product.getName());
-                textViewProductPrice.setText(String.format("Giá: %s", product.getPrice()));
-                textViewTotalPrice.setText(String.format("Tổng: %s", order.getTotalPrice()));
-                textViewOrderStatus.setText(getOrderStatus(order.getStatus()));
+                textViewProductPrice.setText(String.valueOf(product.getPrice()));
+                textViewTotalPrice.setText(String.valueOf(order.getTotalPrice()));
+                textViewOrderStatus.setText(getStatusText(order.getStatus()));
 
                 if (product.getImages() != null && !product.getImages().isEmpty()) {
-                    Log.d("OrderAdapter", "Product Image URL: " + product.getImages().get(0).getUrl());
                     Glide.with(itemView.getContext())
                             .load(product.getImages().get(0).getUrl())
                             .placeholder(R.drawable.avatar)
                             .into(imageViewProduct);
                 } else {
-                    Log.d("OrderAdapter", "Product has no images, setting default image");
                     imageViewProduct.setImageResource(R.drawable.avatar);
                 }
-            } else {
-                Log.d("OrderAdapter", "Order has no products");
             }
         }
 
-        private String getOrderStatus(int status) {
+        private String getStatusText(int status) {
             switch (status) {
                 case 0:
                     return "Hủy";
@@ -101,9 +112,9 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
                 case 2:
                     return "Confirm";
                 case 3:
-                    return "Đã thanh toán";
+                    return "Đã thanh toán (Online)";
                 case 4:
-                    return "Ship code";
+                    return "Ship Code";
                 case 5:
                     return "Hide";
                 case 6:
@@ -113,6 +124,19 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
                 default:
                     return "Unknown";
             }
+        }
+    }
+
+    static class HeaderViewHolder extends RecyclerView.ViewHolder {
+        private final TextView textViewHeader;
+
+        public HeaderViewHolder(@NonNull View itemView) {
+            super(itemView);
+            textViewHeader = itemView.findViewById(R.id.textViewHeader);
+        }
+
+        public void bind(String headerTitle) {
+            textViewHeader.setText(headerTitle);
         }
     }
 }

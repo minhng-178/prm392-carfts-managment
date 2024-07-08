@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.google.android.libraries.mapsplatform.secrets.gradle.plugin)
 }
 
 android {
@@ -31,21 +32,31 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
 dependencies {
-
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.ext.junit)
-    androidTestImplementation(libs.espresso.core)
+    implementation(libs.play.services.maps)
+    implementation(libs.play.services.location)
+    implementation(libs.core)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.glide)
+    implementation(libs.play.services.auth)
+    implementation(libs.google.maps.services)
+    implementation(libs.places)
+    implementation(libs.slf4j.simple)
+    implementation(libs.webkit)
+    implementation (libs.socket.io.client)
+    implementation(libs.play.services.basement)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.ext.junit)
+    androidTestImplementation(libs.espresso.core)
 }
