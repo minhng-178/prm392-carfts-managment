@@ -115,6 +115,7 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString("USERNAME", username);
                     editor.putString("TOKEN", response.body().getResult().getToken());
                     editor.putString("ROLE", response.body().getResult().getUser().getRole().getName());
+                    editor.putInt("USER_ID", response.body().getResult().getUser().getId());
                     editor.apply();
                     Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
                     startActivity(intent);

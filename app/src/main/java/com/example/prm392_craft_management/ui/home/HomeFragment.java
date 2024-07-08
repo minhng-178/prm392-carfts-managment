@@ -1,6 +1,7 @@
 package com.example.prm392_craft_management.ui.home;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,14 +13,22 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.prm392_craft_management.databinding.FragmentHomeBinding;
 import com.example.prm392_craft_management.models.festival.FestivalModel;
+import com.example.prm392_craft_management.models.product.ProductModel;
 
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
+    private Context mContext;
     private FragmentHomeBinding binding;
+    private HomeAdapter homeAdapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         HomeViewModel homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
@@ -27,33 +36,22 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        homeViewModel.getFestivals().observe(getViewLifecycleOwner(), new Observer<List<FestivalModel>>() {
-            @Override
-            public void onChanged(List<FestivalModel> festivalModels) {
-                if (festivalModels != null && !festivalModels.isEmpty()) {
-                    TextView festivalNamesTextView = binding.textFestivalNames;
+        RecyclerView recyclerView = binding.recyclerviewRecommended;
+        homeAdapter = new HomeAdapter(new ArrayList<>());
+        recyclerView.setAdapter(homeAdapter);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
+        recyclerView.setNestedScrollingEnabled(true);
 
-                    StringBuilder festivalNames = new StringBuilder();
-                    for (FestivalModel festival : festivalModels) {
-                        festivalNames.append(festival.getName()).append("\n");
-                    }
-                    festivalNamesTextView.setText(festivalNames.toString());
-                }
+        homeViewModel.getProducts().observe(getViewLifecycleOwner(), new Observer<List<ProductModel>>() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onChanged(List<ProductModel> productModels) {
+                // Update the data in the adapter
+                homeAdapter.listProduct = productModels;
+                homeAdapter.notifyDataSetChanged();
             }
         });
-
-        homeViewModel.getError().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onChanged(String error) {
-                if (error != null) {
-                    TextView errorTextView = binding.textError;
-                    errorTextView.setText("Error: " + error);
-                    Toast.makeText(getContext(), "Error: " + error, Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-
 
         return root;
     }
@@ -64,3 +62,4 @@ public class HomeFragment extends Fragment {
         binding = null;
     }
 }
+
