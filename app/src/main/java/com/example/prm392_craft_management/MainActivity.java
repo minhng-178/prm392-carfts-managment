@@ -163,6 +163,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void showNotification() {
         NotificationUtils notificationUtils = new NotificationUtils(this, "CHANNEL_ID");
-        notificationUtils.showNotification("You have items in your cart!", "Don't forget to complete your purchase.");
+        notificationUtils.showNotification("You have items in your cart!", "Don't forget to complete your purchase.", false);
     }
 }

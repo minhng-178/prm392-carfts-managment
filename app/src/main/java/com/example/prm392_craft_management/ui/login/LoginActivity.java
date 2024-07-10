@@ -248,6 +248,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private void showNotification() {
         NotificationUtils notificationUtils = new NotificationUtils(this, "CHANNEL_ID");
-        notificationUtils.showNotification("Login Successful!", "Welcome back to our app");
+        notificationUtils.showNotification("Login Successful!", "Welcome back to our app", false);
     }
 }

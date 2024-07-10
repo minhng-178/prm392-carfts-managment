@@ -360,7 +360,7 @@ public class CheckoutActivity extends AppCompatActivity implements OnMapReadyCal
 
     private void showNotification() {
         NotificationUtils notificationUtils = new NotificationUtils(this, "CHANNEL_ID");
-        notificationUtils.showNotification("Order Successful!", "One more step to complete your order");
+        notificationUtils.showNotification("Order Successful!", "One more step to complete your order", false);
     }
 
     public BitmapDescriptor setIcon(Activity context, int drawableID) {

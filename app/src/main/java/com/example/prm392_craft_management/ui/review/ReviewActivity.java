@@ -111,6 +111,6 @@ public class ReviewActivity extends AppCompatActivity {
 
     private void showNotification() {
         NotificationUtils notificationUtils = new NotificationUtils(this, "CHANNEL_ID");
-        notificationUtils.showNotification("Confirm Order Successful!", "Your order has been confirmed");
+        notificationUtils.showNotification("Confirm Order Successful!", "Your order has been confirmed", false);
     }
 }

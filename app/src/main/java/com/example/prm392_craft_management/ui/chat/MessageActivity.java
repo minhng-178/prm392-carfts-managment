@@ -1,5 +1,6 @@
 package com.example.prm392_craft_management.ui.chat;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
@@ -22,6 +23,7 @@ import com.example.prm392_craft_management.models.message.MessageRequestModel;
 import com.example.prm392_craft_management.models.message.MessageResponseModel;
 import com.example.prm392_craft_management.repositories.MessageRepository;
 import com.example.prm392_craft_management.services.MessageService;
+import com.example.prm392_craft_management.services.NotificationService;
 
 
 import org.json.JSONException;
@@ -53,6 +55,7 @@ public class MessageActivity extends AppCompatActivity implements TextWatcher {
         initializeView();
         initListeners();
         initiateSocketConnection();
+        startService(new Intent(this, NotificationService.class));
     }
 
     private void initiateSocketConnection() {
