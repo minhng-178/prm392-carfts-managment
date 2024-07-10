@@ -144,6 +144,13 @@
                 android:textColor="@color/dark_late_gray"
                 android:textSize="16sp" />
 
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text_description"
+                android:text="Address: FPT University HCMC" />
+
             <Button
                 android:id="@+id/btnDecreaseQuantity"
                 android:layout_width="50dp"

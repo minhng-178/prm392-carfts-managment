@@ -92,7 +92,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    public void addItem(MessageModel messageModel) {
+    public void addMessage(MessageModel messageModel) {
         if (messageModel != null) {
             messageList.add(messageModel);
             notifyItemInserted(messageList.size() - 1);

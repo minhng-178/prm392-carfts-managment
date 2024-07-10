@@ -45,6 +45,7 @@ public class MessageActivity extends AppCompatActivity implements TextWatcher {
     private MessageAdapter messageAdapter;
     private ImageView backBtn;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,9 +65,11 @@ public class MessageActivity extends AppCompatActivity implements TextWatcher {
 
         mSocket.on(Socket.EVENT_CONNECT, args -> runOnUiThread(() -> {
             Log.d("SOCKET", "Connected to the Socket.io server");
+            SharedPreferences sharedPreferences = getSharedPreferences("User_Info", MODE_PRIVATE);
+            String userId = sharedPreferences.getString("USER_ID", "");
             JSONObject subscribeObject = new JSONObject();
             try {
-                subscribeObject.put("room_id", "0");
+                subscribeObject.put("room_id", userId);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -83,7 +86,16 @@ public class MessageActivity extends AppCompatActivity implements TextWatcher {
         mSocket.connect();
     }
 
-    private final Emitter.Listener onNewMessage = args -> runOnUiThread(this::initListeners);
+    private final Emitter.Listener onNewMessage = args -> runOnUiThread(() -> {
+        JSONObject data = (JSONObject) args[0];
+        try {
+            String message = data.getString("message");
+            Log.d("SOCKET", "New message: " + message);
+            initListeners();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    });
 
     @Override
     protected void onDestroy() {
@@ -167,6 +179,9 @@ public class MessageActivity extends AppCompatActivity implements TextWatcher {
                 @Override
                 public void onResponse(@NonNull Call<MessageResponseModel> call, @NonNull Response<MessageResponseModel> response) {
                     if (response.isSuccessful()) {
+                        MessageModel newMessage = new MessageModel(message, receiverId, Integer.parseInt(userId));
+                        messageAdapter.addMessage(newMessage);
+                        recyclerView.smoothScrollToPosition(messageAdapter.getItemCount() - 1);
                         resetMessageEdit();
                     } else {
                         Toast.makeText(MessageActivity.this, "Failed", Toast.LENGTH_SHORT).show();
@@ -179,6 +194,6 @@ public class MessageActivity extends AppCompatActivity implements TextWatcher {
                 }
             });
         });
-    }
 
+    }
 }

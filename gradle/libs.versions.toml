@@ -21,6 +21,8 @@ slf4jSimple = "1.7.25"
 socketIoClient = "2.1.0"
 webkit = "1.11.0"
 core = "1.13.1"
+compiler = "3.2.0-alpha11"
+rendering = "1.17.1"
 
 [libraries]
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
@@ -44,6 +46,8 @@ slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4jSimple" 
 socket-io-client = { module = "io.socket:socket.io-client", version.ref = "socketIoClient" }
 webkit = { module = "androidx.webkit:webkit", version.ref = "webkit" }
 core = { group = "androidx.core", name = "core", version.ref = "core" }
+compiler = { group = "androidx.databinding", name = "compiler", version.ref = "compiler" }
+rendering = { group = "com.google.ar.sceneform", name = "rendering", version.ref = "rendering" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
