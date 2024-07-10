@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
@@ -19,7 +18,6 @@ import com.example.prm392_craft_management.databinding.FragmentSearchBinding;
 import com.example.prm392_craft_management.models.festival.FestivalModel;
 import com.example.prm392_craft_management.models.product.ProductModel;
 import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipGroup;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -56,11 +54,12 @@ public class SearchFragment extends Fragment {
             }
         });
         searchViewModel.getFilteredProducts().observe(getViewLifecycleOwner(), new Observer<List<ProductModel>>() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onChanged(List<ProductModel> productModels) {
                 searchAdapter.listProduct = productModels;
                 searchAdapter.notifyDataSetChanged();
-                if (productModels.isEmpty()){
+                if (productModels.isEmpty()) {
                     binding.searchView.setVisibility(View.VISIBLE);
                 } else {
                     binding.searchView.setVisibility(View.VISIBLE);
@@ -84,6 +83,7 @@ public class SearchFragment extends Fragment {
 
         return root;
     }
+
     private void updateChips(List<ProductModel> productModels) {
         binding.chipGroup.removeAllViews();
         festivalSet.clear();
@@ -104,6 +104,7 @@ public class SearchFragment extends Fragment {
         chip.setText(festivalName);
         chip.setCheckable(true);
         chip.setChecked(isDefault);
+
         chip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

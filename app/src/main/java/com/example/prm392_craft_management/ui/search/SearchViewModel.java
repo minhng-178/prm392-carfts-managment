@@ -35,10 +35,6 @@ public class SearchViewModel extends ViewModel {
         loadProducts();
     }
 
-    public LiveData<String> getError() {
-        return mError;
-    }
-
     public LiveData<List<ProductModel>> getProducts() {
         return mProducts;
     }

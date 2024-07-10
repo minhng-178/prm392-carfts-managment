@@ -61,7 +61,7 @@ public class OrderFragment extends Fragment {
 
         OrderService orderService = OrderRepository.getOrderService();
         if (userId != -1) {
-            orderService.getOrdersByUserId(23).enqueue(new Callback<OrderResponseModel>() {
+            orderService.getOrdersByUserId(userId).enqueue(new Callback<OrderResponseModel>() {
                 @Override
                 public void onResponse(Call<OrderResponseModel> call, Response<OrderResponseModel> response) {
                     if (response.isSuccessful()) {

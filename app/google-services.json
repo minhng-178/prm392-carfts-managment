@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "879947613347",
+    "project_id": "prm392-craft-management",
+    "storage_bucket": "prm392-craft-management.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:879947613347:android:d6acf4c5704d15ddcb2b16",
+        "android_client_info": {
+          "package_name": "com.example.prm392_craft_management"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBZojcL29YVz60ENCdh5QH_VY5M-_UxHs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

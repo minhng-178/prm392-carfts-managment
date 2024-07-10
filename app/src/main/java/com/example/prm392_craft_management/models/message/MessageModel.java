@@ -9,14 +9,10 @@ public class MessageModel {
     private String created_at;
     private boolean isSent;
 
-    public MessageModel(String created_at, int id, boolean isSent, String message, int reciever_id, int sender_id, int status) {
-        this.created_at = created_at;
-        this.id = id;
-        this.isSent = isSent;
+    public MessageModel( String message, int reciever_id, int sender_id) {
         this.message = message;
         this.reciever_id = reciever_id;
         this.sender_id = sender_id;
-        this.status = status;
     }
 
     public String getCreated_at() {

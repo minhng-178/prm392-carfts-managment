@@ -25,6 +25,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.prm392_craft_management.databinding.ActivityMainBinding;
 import com.example.prm392_craft_management.ui.chat.MessageActivity;
 import com.example.prm392_craft_management.ui.cart.CartActivity;
+import com.example.prm392_craft_management.utils.NotificationUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
@@ -128,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         updateCartCount();
+        showCartNotificationIfNeeded();
     }
 
     @Override
@@ -148,5 +150,19 @@ public class MainActivity extends AppCompatActivity {
         if (cartBadge != null) {
             cartBadge.setText(String.valueOf(totalItems));
         }
+    }
+
+    private void showCartNotificationIfNeeded() {
+        SharedPreferences sharedPreferences = getSharedPreferences("User_Info", MODE_PRIVATE);
+        int totalItems = sharedPreferences.getInt("TOTAL_ITEMS", 0);
+
+        if (totalItems > 0) {
+            showNotification();
+        }
+    }
+
+    private void showNotification() {
+        NotificationUtils notificationUtils = new NotificationUtils(this, "CHANNEL_ID");
+        notificationUtils.showNotification("You have items in your cart!", "Don't forget to complete your purchase.", false);
     }
 }
