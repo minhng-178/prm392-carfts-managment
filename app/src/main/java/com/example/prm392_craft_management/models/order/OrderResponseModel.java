@@ -6,6 +6,7 @@ import java.util.List;
 
 public class OrderResponseModel {
     private int order_id;
+    private List<OrderModel> orders;
     private List<ProductModel> products;
     private double total_price, shipping_fee, total_product_price;
 
@@ -55,5 +56,13 @@ public class OrderResponseModel {
 
     public void setTotal_product_price(double total_product_price) {
         this.total_product_price = total_product_price;
+    }
+    // Getters and Setters
+    public List<OrderModel> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<OrderModel> orders) {
+        this.orders = orders;
     }
 }
