@@ -121,7 +121,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="10dp"
-                android:text="Weight"
+                android:text="Cân nặng"
                 android:textColor="@color/dark_late_gray"
                 android:textSize="16sp" />
 
@@ -166,7 +166,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_alignParentBottom="true"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="5dp"
                 android:layout_toEndOf="@+id/btnDecreaseQuantity"
                 android:gravity="center"
                 android:text="1"
@@ -177,7 +177,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_alignParentBottom="true"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="5dp"
                 android:layout_toEndOf="@+id/tvQuantity"
                 android:background="@drawable/bg_circle_gray_line"
                 android:text="+"
@@ -193,7 +193,7 @@
                 android:background="@drawable/bg_circle_green_line"
                 android:paddingStart="30dp"
                 android:paddingEnd="30dp"
-                android:text="Add to Cart"
+                android:text="Thêm vào giỏ hàng"
                 android:textAllCaps="false"
                 android:textStyle="bold" />
 

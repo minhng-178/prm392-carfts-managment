@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -36,9 +37,12 @@ public class OrderFragment extends Fragment {
     private RecyclerView recyclerView;
     private TextView textNoOrders;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
+    private RelativeLayout relativeLayoutDropOff;
+    private RelativeLayout relativeLayoutPickUp;
+    private RelativeLayout relativeLayoutPromo;
+    private RelativeLayout relativeLayoutTopUp;
 
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentOrderBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
@@ -46,46 +50,25 @@ public class OrderFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
         textNoOrders = root.findViewById(R.id.text_no_orders);
-        textNoOrders.setVisibility(View.GONE);  // Ẩn TextView khi chưa có đơn hàng nào
+        textNoOrders.setVisibility(View.GONE);
+
+        relativeLayoutDropOff = root.findViewById(R.id.relativeLayoutDropOff);
+        relativeLayoutPickUp = root.findViewById(R.id.relativeLayoutPickUp);
+        relativeLayoutPromo = root.findViewById(R.id.relativeLayoutPromo);
+        relativeLayoutTopUp = root.findViewById(R.id.relativeLayoutTopUp);
 
         orderViewModel = new ViewModelProvider(this).get(OrderViewModel.class);
 
-        // Khởi tạo Adapter và gắn vào RecyclerView
         adapter = new OrderAdapter(new ArrayList<>());
         recyclerView.setAdapter(adapter);
 
-        // Lấy userId từ SharedPreferences
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("User_Info", Context.MODE_PRIVATE);
-        int userId = sharedPreferences.getInt("USER_ID", -1);
-        Log.d("OrderFragment", "Retrieved userId: " + userId);
+        String userId = sharedPreferences.getString("USER_ID", "");
 
-        OrderService orderService = OrderRepository.getOrderService();
-        if (userId != -1) {
-            orderService.getOrdersByUserId(userId).enqueue(new Callback<OrderResponseModel>() {
-                @Override
-                public void onResponse(Call<OrderResponseModel> call, Response<OrderResponseModel> response) {
-                    if (response.isSuccessful()) {
-                        OrderResponseModel orderResponse = response.body();
-                        if (orderResponse != null && orderResponse.getOrders() != null) {
-                            List<OrderModel> orders = orderResponse.getOrders();
-                            Log.d("OrderFragment", "Number of orders retrieved: " + orders.size());
-                            orderViewModel.setOrderItems(orders);
-                        } else {
-                            Log.d("OrderFragment", "No orders retrieved or orders list is null");
-                            showNoOrdersMessage();
-                        }
-                    } else {
-                        Log.e("OrderFragment", "Error fetching orders: " + response.message());
-                        showNoOrdersMessage();
-                    }
-                }
+        setupClickListeners();
 
-                @Override
-                public void onFailure(Call<OrderResponseModel> call, Throwable t) {
-                    Log.e("OrderFragment", "Failed to get orders", t);
-                    showNoOrdersMessage();
-                }
-            });
+        if (!userId.isEmpty() || userId.matches("\\d+")) {
+            fetchOrdersByStatus(3); // Default status
         } else {
             Log.e("OrderFragment", "User ID not found");
             showNoOrdersMessage();
@@ -104,6 +87,71 @@ public class OrderFragment extends Fragment {
         return root;
     }
 
+    private void setupClickListeners() {
+        relativeLayoutDropOff.setOnClickListener(view -> fetchOrdersByStatus(3));
+        relativeLayoutPickUp.setOnClickListener(view -> fetchOrdersByStatus(1));
+        relativeLayoutPromo.setOnClickListener(view -> fetchOrdersByStatus(2));
+        relativeLayoutTopUp.setOnClickListener(view -> fetchOrdersByStatus(0));
+    }
+
+    private void fetchOrdersByStatus(int status) {
+        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("User_Info", Context.MODE_PRIVATE);
+        String userId = sharedPreferences.getString("USER_ID", "");
+
+        OrderService orderService = OrderRepository.getOrderService();
+        if (!userId.isEmpty() || userId.matches("\\d+")) {
+            orderService.getOrdersByUserId(Integer.parseInt(userId), "created_at", status).enqueue(new Callback<OrderResponseModel>() {
+                @Override
+                public void onResponse(@NonNull Call<OrderResponseModel> call, @NonNull Response<OrderResponseModel> response) {
+                    if (response.isSuccessful()) {
+                        OrderResponseModel orderResponse = response.body();
+                        if (orderResponse != null && orderResponse.getOrders() != null) {
+                            List<OrderModel> orders = orderResponse.getOrders();
+                            orderViewModel.setOrderItems(orders);
+                            updateSelectedStatusUI(status);
+                        } else {
+                            showNoOrdersMessage();
+                        }
+                    } else {
+                        Log.e("OrderFragment", "Error fetching orders: " + response.message());
+                        showNoOrdersMessage();
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<OrderResponseModel> call, @NonNull Throwable t) {
+                    Log.e("OrderFragment", "Failed to get orders", t);
+                    showNoOrdersMessage();
+                }
+            });
+        } else {
+            Log.e("OrderFragment", "User ID not found");
+            showNoOrdersMessage();
+        }
+    }
+
+    private void updateSelectedStatusUI(int status) {
+        relativeLayoutDropOff.findViewById(R.id.image_1).setBackgroundResource(R.drawable.bg_item_choose_services);
+        relativeLayoutPickUp.findViewById(R.id.image_2).setBackgroundResource(R.drawable.bg_item_choose_services);
+        relativeLayoutPromo.findViewById(R.id.image_3).setBackgroundResource(R.drawable.bg_item_choose_services);
+        relativeLayoutTopUp.findViewById(R.id.image_4).setBackgroundResource(R.drawable.bg_item_choose_services);
+
+        switch (status) {
+            case 0:
+                relativeLayoutTopUp.findViewById(R.id.image_4).setBackgroundResource(R.drawable.bg_item_selected);
+                break;
+            case 1:
+                relativeLayoutPickUp.findViewById(R.id.image_2).setBackgroundResource(R.drawable.bg_item_selected);
+                break;
+            case 2:
+                relativeLayoutPromo.findViewById(R.id.image_3).setBackgroundResource(R.drawable.bg_item_selected);
+                break;
+            case 3:
+                relativeLayoutDropOff.findViewById(R.id.image_1).setBackgroundResource(R.drawable.bg_item_selected);
+                break;
+        }
+    }
+
     private void showNoOrdersMessage() {
         recyclerView.setVisibility(View.GONE);
         textNoOrders.setVisibility(View.VISIBLE);
@@ -115,3 +163,4 @@ public class OrderFragment extends Fragment {
         binding = null;
     }
 }
+

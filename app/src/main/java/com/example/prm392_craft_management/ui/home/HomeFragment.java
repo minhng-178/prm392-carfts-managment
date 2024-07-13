@@ -3,6 +3,7 @@ package com.example.prm392_craft_management.ui.home;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.prm392_craft_management.R;
 import com.example.prm392_craft_management.databinding.FragmentHomeBinding;
@@ -34,13 +36,29 @@ public class HomeFragment extends Fragment {
     private Context mContext;
     private FragmentHomeBinding binding;
     private HomeAdapter homeAdapter;
+    private CarouselAdapter carouselAdapter;
     private NavController navController;
+    private final Handler sliderHandler = new Handler();
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    HomeViewModel homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        HomeViewModel homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        ViewPager2 viewPager2 = binding.viewpagerCarousel;
+        List<String> imageUrls = new ArrayList<>();
+        carouselAdapter = new CarouselAdapter(imageUrls, mContext);
+        viewPager2.setAdapter(carouselAdapter);
+
+        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                sliderHandler.removeCallbacks(sliderRunnable);
+                sliderHandler.postDelayed(sliderRunnable, 3000);
+            }
+        });
 
         RecyclerView recyclerView = binding.recyclerviewRecommended;
         homeAdapter = new HomeAdapter(new ArrayList<>());
@@ -58,6 +76,15 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        homeViewModel.getCarouselImages().observe(getViewLifecycleOwner(), new Observer<List<String>>() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onChanged(List<String> imageUrls) {
+                carouselAdapter.imageUrls = imageUrls;
+                carouselAdapter.notifyDataSetChanged();
+            }
+        });
+
         navController = NavHostFragment.findNavController(this);
         binding.searchView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,10 +95,27 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
+    private final Runnable sliderRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (binding.viewpagerCarousel.getCurrentItem() < carouselAdapter.getItemCount() - 1) {
+                binding.viewpagerCarousel.setCurrentItem(binding.viewpagerCarousel.getCurrentItem() + 1);
+            } else {
+                binding.viewpagerCarousel.setCurrentItem(0);
+            }
+        }
+    };
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        mContext = context;
     }
 }
 

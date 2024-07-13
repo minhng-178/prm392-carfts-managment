@@ -125,7 +125,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                 quantity[0]--;
                 tvQuantity.setText(String.valueOf(quantity[0]));
             } else {
-                Toast.makeText(this, "Quantity cannot be less than 1", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Số lượng sản phẩm phải lớn hơn 1", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -149,11 +149,9 @@ public class ProductDetailActivity extends AppCompatActivity {
             Glide.with(imageProduct.getContext()).load(imageUrl).into(imageProduct);
         }
 
-        Log.d("TAG", "updateUI: " + product.getAmount());
-
-        textPrice.setText(String.format(Locale.getDefault(), "%.2f", product.getPrice()));
-        textWeight.setText(String.format(Locale.getDefault(), "Weight: %.2f", product.getWeight()));
-        textAmount.setText(String.format(Locale.getDefault(), "Amount: %d", product.getAmount()));
+        textPrice.setText(String.format(Locale.getDefault(), "%.2f", product.getPrice(), "VND"));
+        textWeight.setText(String.format(Locale.getDefault(), "Cân nặng: %.2f", product.getWeight()));
+        textAmount.setText(String.format(Locale.getDefault(), "Số lượng: %d", product.getAmount()));
         textDescription.setText(product.getDescription());
         tvQuantity.setText(String.valueOf(storedQuantity));
     }
@@ -165,7 +163,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         String userId = sharedPreferences.getString("USER_ID", "");
 
         if (userId.isEmpty() || !userId.matches("\\d+")) {
-            Toast.makeText(ProductDetailActivity.this, "Please log in to add items to cart", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ProductDetailActivity.this, "Xin hãy đăng nhập trước", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -181,16 +179,16 @@ public class ProductDetailActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call<CartResponseModel> call, @NonNull Response<CartResponseModel> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(ProductDetailActivity.this, "Added to cart", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ProductDetailActivity.this, "Đã thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(ProductDetailActivity.this, CartActivity.class));
                 } else if (response.code() == 400) {
-                    Toast.makeText(ProductDetailActivity.this, "Requested amount exceeds available product amount", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ProductDetailActivity.this, "Số lượng đơn hàng hiện tại đã vượt quá giới hạn", Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<CartResponseModel> call, @NonNull Throwable throwable) {
-                Toast.makeText(ProductDetailActivity.this, "Failed to add to cart", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ProductDetailActivity.this, "Lỗi khi thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
             }
         });
     }

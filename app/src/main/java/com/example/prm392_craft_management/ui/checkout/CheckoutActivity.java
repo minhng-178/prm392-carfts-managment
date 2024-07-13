@@ -117,6 +117,7 @@ public class CheckoutActivity extends AppCompatActivity implements OnMapReadyCal
         btnSetLocation = findViewById(R.id.btnSetLocation);
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
+        assert mapFragment != null;
         mapFragment.getMapAsync(this);
 
         autocompleteFragment = (AutocompleteSupportFragment)
@@ -136,15 +137,15 @@ public class CheckoutActivity extends AppCompatActivity implements OnMapReadyCal
         int distance = (int) (distanceInKilometers);
         String note = "String";
         if (phone.isEmpty()) {
-            etPhone.setError("Phone is required");
+            etPhone.setError("Yêu cầu số điện thoại");
             return;
         }
         if (!ValidationUtils.isValidPhone(phone)) {
-            etPhone.setError("Invalid phone number (must be 10 digits)");
+            etPhone.setError("Số điện thoại cần ít nhất 10 số");
             return;
         }
         if (address.isEmpty()) {
-            etAddress.setError("Address is required");
+            etAddress.setError("Yêu cầu địa chỉ");
             return;
         }
 
@@ -199,7 +200,7 @@ public class CheckoutActivity extends AppCompatActivity implements OnMapReadyCal
             LatLng myLocation = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
             updateMapLocation(myLocation);
             MarkerOptions markerOptions = new MarkerOptions();
-            markerOptions.position(myLocation).title("My Location");
+            markerOptions.position(myLocation).title("Vị trí của tôi");
             mMap.moveCamera(CameraUpdateFactory.newLatLng(myLocation));
             mMap.setMyLocationEnabled(true);
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 15));
@@ -224,6 +225,7 @@ public class CheckoutActivity extends AppCompatActivity implements OnMapReadyCal
                     currentLocation = location;
                     latLng = new LatLng(location.getLatitude(), location.getLongitude());
                     mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+                    assert mapFragment != null;
                     mapFragment.getMapAsync(CheckoutActivity.this);
                 }
             }
@@ -233,28 +235,29 @@ public class CheckoutActivity extends AppCompatActivity implements OnMapReadyCal
     private void setCurrentLocationAsAddress() {
         if (currentLocation != null) {
             new AlertDialog.Builder(this)
-                    .setTitle("Set Current Location")
-                    .setMessage("Do you want to use your current location as the address?")
-                    .setPositiveButton("Yes", (dialog, which) -> {
+                    .setTitle("Set vị trí hiện tại")
+                    .setMessage("Bạn có muốn sử dụng vị trí hiện tại không ?")
+                    .setPositiveButton("Có", (dialog, which) -> {
                         Geocoder geocoder = new Geocoder(CheckoutActivity.this, Locale.getDefault());
                         try {
                             List<Address> addresses = geocoder.getFromLocation(currentLocation.getLatitude(), currentLocation.getLongitude(), 1);
+                            assert addresses != null;
                             if (!addresses.isEmpty()) {
                                 String address = addresses.get(0).getAddressLine(0);
                                 etAddress.setText(address);
                                 isLocationUpdated = true;
                                 calculateDistance(SPECIFIC_ORIGIN, latLng);
-                                Toast.makeText(CheckoutActivity.this, "Current location set as address", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(CheckoutActivity.this, "Vị trí hiện tại đã được chọn làm địa chỉ", Toast.LENGTH_SHORT).show();
                             }
                         } catch (IOException e) {
                             e.printStackTrace();
-                            Toast.makeText(CheckoutActivity.this, "Unable to get current address", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CheckoutActivity.this, "Lỗi khi lấy vị trí hiện tại", Toast.LENGTH_SHORT).show();
                         }
                     })
-                    .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
+                    .setNegativeButton("Không", (dialog, which) -> dialog.dismiss())
                     .show();
         } else {
-            Toast.makeText(CheckoutActivity.this, "Current location not available", Toast.LENGTH_SHORT).show();
+            Toast.makeText(CheckoutActivity.this, "Lỗi khi lấy vị trí hiện tại", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -284,7 +287,7 @@ public class CheckoutActivity extends AppCompatActivity implements OnMapReadyCal
     }
 
     private void calculateDistance(LatLng origin, LatLng destination) {
-        Toast.makeText(this, "Calculating distance...", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Đang tính quãng đường...", Toast.LENGTH_SHORT).show();
         DirectionsApiRequest req = DirectionsApi.newRequest(geoApiContext)
                 .origin(new com.google.maps.model.LatLng(origin.latitude, origin.longitude))
                 .destination(new com.google.maps.model.LatLng(destination.latitude, destination.longitude));
@@ -297,7 +300,7 @@ public class CheckoutActivity extends AppCompatActivity implements OnMapReadyCal
                     addUserLocationMarker(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()));
                     MarkerOptions shopMarker = new MarkerOptions()
                             .position(new LatLng(origin.latitude, origin.longitude))
-                            .title("Shop Location");
+                            .title("Địa chỉ shop");
                     mMap.addMarker(shopMarker);
                     long distanceInMeters = 0;
                     for (DirectionsLeg leg : result.routes[0].legs) {
@@ -305,7 +308,7 @@ public class CheckoutActivity extends AppCompatActivity implements OnMapReadyCal
                     }
                     distanceInKilometers = distanceInMeters / 1000.0;
 
-                    tvDistance.setText("Distance: " + distanceInKilometers + " kilometers");
+                    tvDistance.setText("Khoảng cách: " + distanceInKilometers + " cây số");
 
                     drawPolyline(result);
                 });
@@ -342,7 +345,7 @@ public class CheckoutActivity extends AppCompatActivity implements OnMapReadyCal
         MarkerOptions userMarker = new MarkerOptions()
                 .position(latLng)
                 .icon(setIcon(this, R.drawable.combined_drawable))
-                .title("Your Location");
+                .title("Vị trí của bạn");
         mMap.addMarker(userMarker);
     }
 
@@ -360,11 +363,12 @@ public class CheckoutActivity extends AppCompatActivity implements OnMapReadyCal
 
     private void showNotification() {
         NotificationUtils notificationUtils = new NotificationUtils(this, "CHANNEL_ID");
-        notificationUtils.showNotification("Order Successful!", "One more step to complete your order", false);
+        notificationUtils.showNotification("Đặt đơn hàng thành công!", "Chỉ còn một bước nữa để hoàn thành đơn hàng", false);
     }
 
     public BitmapDescriptor setIcon(Activity context, int drawableID) {
         Drawable vectorDrawable = ActivityCompat.getDrawable(context, drawableID);
+        assert vectorDrawable != null;
         vectorDrawable.setBounds(0, 0, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
         Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);

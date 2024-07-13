@@ -4,8 +4,12 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +26,7 @@ import com.example.prm392_craft_management.models.payment.PaymentResponseModel;
 import com.example.prm392_craft_management.models.product.ProductModel;
 import com.example.prm392_craft_management.repositories.OrderRepository;
 import com.example.prm392_craft_management.services.OrderService;
+import com.example.prm392_craft_management.ui.order.OrderFragment;
 import com.example.prm392_craft_management.ui.payment.PaymentActivity;
 import com.example.prm392_craft_management.utils.NotificationUtils;
 import com.google.gson.Gson;
@@ -39,6 +44,8 @@ public class ReviewActivity extends AppCompatActivity {
     ImageView buttonBack;
     OrderResponseModel orderResponseModel;
     TextView tvOrderId, tvTotalProductPrice, tvShippingFee, tvTotalPrice;
+    Spinner spinnerPaymentMethod;
+    String selectedPaymentMethod = "online"; // Default payment method
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -74,29 +81,54 @@ public class ReviewActivity extends AppCompatActivity {
         tvShippingFee = findViewById(R.id.tvShippingFee);
         tvTotalPrice = findViewById(R.id.tvTotalPrice);
         buttonBack = findViewById(R.id.button_back);
+        spinnerPaymentMethod = findViewById(R.id.spinner_payment_method);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.payment_methods, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerPaymentMethod.setAdapter(adapter);
     }
 
     @SuppressLint("SetTextI18n")
     private void initListeners() {
-        tvOrderId.setText("Order ID: #" + orderResponseModel.getOrder_id());
-        tvTotalProductPrice.setText("Total Product Price: $" + orderResponseModel.getTotal_product_price());
-        tvShippingFee.setText("Shipping Fee: $" + orderResponseModel.getShipping_fee());
-        tvTotalPrice.setText("Total Price: $" + orderResponseModel.getTotal_price());
+        tvOrderId.setText("Mã đơn: #" + orderResponseModel.getOrder_id());
+        tvTotalProductPrice.setText("Tổng tiền của đơn hàng: " + orderResponseModel.getTotal_product_price() + " VND");
+        tvShippingFee.setText("Shipping Fee: " + orderResponseModel.getShipping_fee() + " VND");
+        tvTotalPrice.setText("Total Price: " + orderResponseModel.getTotal_price() + " VND");
         buttonBack.setOnClickListener(view -> getOnBackPressedDispatcher().onBackPressed());
+
+        spinnerPaymentMethod.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedPaymentMethod = parent.getItemAtPosition(position).toString().toLowerCase();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Do nothing
+            }
+        });
     }
 
     private void handlePayment(int cartId) {
-        PaymentRequestModel paymentRequestModel = new PaymentRequestModel("online");
+        PaymentRequestModel paymentRequestModel = new PaymentRequestModel(selectedPaymentMethod);
+
+
         orderService.confirmOrder(cartId, paymentRequestModel).enqueue(new Callback<PaymentResponseModel>() {
             @Override
             public void onResponse(@NonNull Call<PaymentResponseModel> call, @NonNull Response<PaymentResponseModel> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(ReviewActivity.this, "Success", Toast.LENGTH_SHORT).show();
-                    Log.d("TAG", "onResponse: " + response.body().getPayment().getUrl());
-                    Intent intent = new Intent(ReviewActivity.this, PaymentActivity.class);
-                    intent.putExtra("PAYMENT_URL", response.body().getPayment().getUrl());
+                    Toast.makeText(ReviewActivity.this, "Thành công", Toast.LENGTH_SHORT).show();
                     showNotification();
-                    startActivity(intent);
+                    if (selectedPaymentMethod.equals("online")) {
+                        assert response.body() != null;
+                        Intent intent = new Intent(ReviewActivity.this, PaymentActivity.class);
+                        intent.putExtra("PAYMENT_URL", response.body().getPayment().getUrl());
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(ReviewActivity.this, OrderFragment.class);
+                        startActivity(intent);
+                    }
                 } else {
                     Toast.makeText(ReviewActivity.this, "Failed", Toast.LENGTH_SHORT).show();
                 }
@@ -111,6 +143,6 @@ public class ReviewActivity extends AppCompatActivity {
 
     private void showNotification() {
         NotificationUtils notificationUtils = new NotificationUtils(this, "CHANNEL_ID");
-        notificationUtils.showNotification("Confirm Order Successful!", "Your order has been confirmed", false);
+        notificationUtils.showNotification("Xác nhận đơn hàng thành công!", "Đơn hàng của bạn đã được xác nhận", false);
     }
 }

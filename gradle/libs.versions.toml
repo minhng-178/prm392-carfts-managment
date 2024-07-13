@@ -19,6 +19,7 @@ playServicesMaps = "19.0.0"
 playServicesLocation = "21.3.0"
 slf4jSimple = "1.7.25"
 socketIoClient = "2.1.0"
+viewpager2 = "1.1.0"
 webkit = "1.11.0"
 core = "1.13.1"
 compiler = "3.2.0-alpha11"
@@ -46,6 +47,7 @@ play-services-maps = { group = "com.google.android.gms", name = "play-services-m
 play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
 slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4jSimple" }
 socket-io-client = { module = "io.socket:socket.io-client", version.ref = "socketIoClient" }
+viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "viewpager2" }
 webkit = { module = "androidx.webkit:webkit", version.ref = "webkit" }
 core = { group = "androidx.core", name = "core", version.ref = "core" }
 compiler = { group = "androidx.databinding", name = "compiler", version.ref = "compiler" }

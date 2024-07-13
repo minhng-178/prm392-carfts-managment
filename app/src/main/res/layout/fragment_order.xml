@@ -1,11 +1,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.order.OrderFragment">
 
-    <!-- Header Layout -->
     <LinearLayout
         android:id="@+id/headerLayout"
         android:layout_width="match_parent"
@@ -14,9 +13,9 @@
         android:background="@drawable/bg_header"
         android:orientation="vertical"
         android:padding="16dp"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:id="@+id/container_choose_service"
@@ -26,8 +25,12 @@
             android:orientation="horizontal">
 
             <RelativeLayout
+                android:id="@+id/relativeLayoutDropOff"
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:clickable="true"
+                android:focusable="true"
                 android:gravity="center_horizontal">
 
                 <ImageView
@@ -45,15 +48,19 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/image_1"
                     android:layout_marginTop="5dp"
-                    android:text="Drop off"
+                    android:text="Đã thanh toán (Online)"
                     android:textAlignment="center"
                     android:textSize="11sp"
                     tools:ignore="SmallSp" />
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/relativeLayoutPickUp"
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:clickable="true"
+                android:focusable="true"
                 android:gravity="center_horizontal">
 
                 <ImageView
@@ -71,15 +78,19 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/image_2"
                     android:layout_marginTop="5dp"
-                    android:text="Pick up"
+                    android:text="Chờ xác nhận"
                     android:textAlignment="center"
                     android:textSize="11sp"
                     tools:ignore="SmallSp" />
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/relativeLayoutPromo"
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:clickable="true"
+                android:focusable="true"
                 android:gravity="center_horizontal">
 
                 <ImageView
@@ -97,15 +108,18 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/image_3"
                     android:layout_marginTop="5dp"
-                    android:text="Promo"
+                    android:text="Confirm"
                     android:textAlignment="center"
                     android:textSize="11sp"
                     tools:ignore="SmallSp" />
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/relativeLayoutTopUp"
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
                 android:gravity="center_horizontal">
 
                 <ImageView
@@ -123,7 +137,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/image_4"
                     android:layout_marginTop="5dp"
-                    android:text="Top up"
+                    android:text="Hủy"
                     android:textAlignment="center"
                     android:textSize="11sp"
                     tools:ignore="SmallSp" />
@@ -131,7 +145,6 @@
         </LinearLayout>
     </LinearLayout>
 
-    <!-- Order List Layout -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -151,8 +164,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="Active Orders"
-            android:textSize="18sp" />
+            android:text="ĐƠN HÀNG CỦA BẠN"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/text_no_orders"

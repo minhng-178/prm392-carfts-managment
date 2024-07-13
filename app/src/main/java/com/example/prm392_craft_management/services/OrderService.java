@@ -1,6 +1,7 @@
 package com.example.prm392_craft_management.services;
 
 
+import com.example.prm392_craft_management.models.order.OrderProductsResponseModel;
 import com.example.prm392_craft_management.models.order.OrderRequestModel;
 import com.example.prm392_craft_management.models.order.OrderResponseModel;
 import com.example.prm392_craft_management.models.payment.PaymentRequestModel;
@@ -14,10 +15,13 @@ import retrofit2.http.Body;
 import retrofit2.http.POST;
 
 public interface OrderService {
-
-    @GET("order")
-    Call<OrderResponseModel> getOrdersByUserId(@Query("user_id") int userId);
     String ORDER = "order";
+
+    @GET(ORDER)
+    Call<OrderResponseModel> getOrdersByUserId(@Query("user_id") int userId, @Query("order_by") String orderBy, @Query("status") int status);
+
+    @GET(ORDER + "/{order_id}")
+    Call<OrderProductsResponseModel> getOrderById(@Path("order_id") int orderId);
 
     @POST(ORDER)
     Call<OrderResponseModel> createOrder(@Body OrderRequestModel orderRequestModel);

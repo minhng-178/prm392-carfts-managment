@@ -107,20 +107,21 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        String name = "Admin";
         SharedPreferences sharedPreferences = getSharedPreferences("User_Info", MODE_PRIVATE);
         String userId = sharedPreferences.getString("USER_ID", "");
         int itemId = item.getItemId();
-        if (Integer.parseInt(userId) == -1) {
-            Toast.makeText(this, "Please Login", Toast.LENGTH_SHORT).show();
-        } else {
-            if (itemId == R.id.action_message) {
-                Intent chatIntent = new Intent(this, MessageActivity.class);
-                startActivity(chatIntent);
-                chatIntent.putExtra("name", name);
-                return true;
+
+        if (itemId == R.id.action_message) {
+            if (userId.isEmpty()) {
+                Toast.makeText(this, "Xin hãy đăng nhập", Toast.LENGTH_SHORT).show();
+                return false;
             }
+
+            Intent chatIntent = new Intent(this, MessageActivity.class);
+            startActivity(chatIntent);
+            return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/container_confirm"
+    android:id="@+id/container_orderproducts"
     android:layout_width="match_parent"
     android:layout_height="80dp"
     android:layout_margin="10dp"
@@ -15,7 +15,7 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/item_confirm_image"
+            android:id="@+id/item_order_image"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_centerVertical="true"
@@ -27,12 +27,12 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_toEndOf="@+id/item_confirm_image"
+            android:layout_toEndOf="@+id/item_order_image"
             android:background="@color/white"
             android:gravity="center_vertical">
 
             <TextView
-                android:id="@+id/item_confirm_name"
+                android:id="@+id/item_order_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
@@ -41,15 +41,15 @@
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/item_confirm_price"
+                android:id="@+id/item_order_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/item_confirm_name"
+                android:layout_below="@+id/item_order_name"
                 android:text="Order"
                 android:textSize="12sp" />
 
             <TextView
-                android:id="@+id/item_confirm_amount"
+                android:id="@+id/item_order_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"

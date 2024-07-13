@@ -34,6 +34,7 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -115,12 +116,12 @@ public class LoginActivity extends AppCompatActivity {
         String password = etPassword.getText().toString();
 
         if (username.isEmpty()) {
-            etUsername.setError("Email is required");
+            etUsername.setError("Yêu cầu Email");
         } else if (!ValidationUtils.isValidUsername(username)) {
-            etUsername.setError("Invalid email");
+            etUsername.setError("Email không hợp lệ");
         }
         if (password.isEmpty()) {
-            etPassword.setError("Password is required");
+            etPassword.setError("Yêu cầu mật khẩu");
         }
         return !username.isEmpty() && ValidationUtils.isValidUsername(username) && !password.isEmpty();
     }
@@ -148,7 +149,7 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString("ROLE", response.body().getResult().getUser().getRole().getName());
                     editor.putString("USER_ID", String.valueOf(response.body().getResult().getUser().getId()));
                     editor.apply();
-                    Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
                     startActivity(intent);
                     finish();
                 } else {
@@ -204,7 +205,7 @@ public class LoginActivity extends AppCompatActivity {
                         assert response.body() != null;
                         editor.putString("USERNAME", account.getDisplayName());
                         editor.putString("EMAIL", account.getEmail());
-                        editor.putString("PHOTO_URL", account.getPhotoUrl().toString());
+                        editor.putString("PHOTO_URL", Objects.requireNonNull(account.getPhotoUrl()).toString());
                         editor.putString("TOKEN", response.body().getResult().getToken());
                         editor.putString("ROLE", response.body().getResult().getUser().getRole().getName());
                         editor.putString("USER_ID", String.valueOf(response.body().getResult().getUser().getId()));
@@ -248,6 +249,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private void showNotification() {
         NotificationUtils notificationUtils = new NotificationUtils(this, "CHANNEL_ID");
-        notificationUtils.showNotification("Login Successful!", "Welcome back to our app", false);
+        notificationUtils.showNotification("Đăng nhập thành công!", "Chào mừng bạn", false);
     }
 }

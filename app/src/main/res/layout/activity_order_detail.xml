@@ -1,9 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.review.ReviewActivity">
+    tools:context=".ui.details.OrderDetailActivity">
 
     <ImageButton
         android:id="@+id/button_back"
@@ -17,10 +18,51 @@
         android:src="@drawable/ic_back" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardReview"
+        android:id="@+id/cardOrderInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/button_back"
+        android:layout_margin="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/tvUsername"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Username: xyz"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvPhone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Phone: 0123456789"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tvAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Address: FPT University"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardReview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cardOrderInfo"
         android:layout_margin="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
@@ -39,6 +81,23 @@
                 android:layout_height="wrap_content"
                 android:text="Order ID: #14"
                 android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Status"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+
+                android:id="@+id/tvCreateAt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Create date"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -63,20 +122,12 @@
                 android:textSize="16sp" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycleview_confirm"
+                android:id="@+id/recycleview_orderproducts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="20dp" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
-
-    <Spinner
-        android:id="@+id/spinner_payment_method"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/cardReview"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="16dp" />
 
     <Button
         android:id="@+id/btnSubmit"
@@ -86,5 +137,5 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginBottom="10dp"
         android:background="@drawable/bg_circle_green_line"
-        android:text="Xác nhận" />
+        android:text="Mua lần nữa" />
 </RelativeLayout>

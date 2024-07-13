@@ -87,6 +87,7 @@ public class CartActivity extends AppCompatActivity {
         buttonCancel = findViewById(R.id.button_cancel);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void initListeners() {
         buttonCancel.setEnabled(false);
         selectAllCheckbox = findViewById(R.id.checkbox_select_all);
@@ -116,7 +117,7 @@ public class CartActivity extends AppCompatActivity {
 
 
             } else {
-                Toast.makeText(this, "Please select at least one item.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Xin hãy chọn ít nhất 1 sản phẩm", Toast.LENGTH_SHORT).show();
             }
         });
         buttonCancel.setOnClickListener(view -> {
@@ -156,14 +157,14 @@ public class CartActivity extends AppCompatActivity {
                     if (carts.isEmpty()) {
                         ivEmptyCart.setVisibility(View.VISIBLE);
                         recyclerView.setVisibility(View.GONE);
-                        tvTotalItems.setText("Total Items: 0");
+                        tvTotalItems.setText("Tổng sản phẩm: 0");
                     } else {
                         ivEmptyCart.setVisibility(View.GONE);
                         recyclerView.setVisibility(View.VISIBLE);
                         cartAdapter = new CartAdapter(carts);
                         recyclerView.setLayoutManager(new LinearLayoutManager(CartActivity.this));
                         recyclerView.setAdapter(cartAdapter);
-                        tvTotalItems.setText("Total Items: " + totalItems);
+                        tvTotalItems.setText("Tổng sản phẩm: " + totalItems);
                         attachSwipeToDelete();
 
                     }
@@ -198,8 +199,8 @@ public class CartActivity extends AppCompatActivity {
 
     private void showDeleteConfirmationDialog(final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(CartActivity.this);
-        builder.setMessage("Are you sure you want to delete this item?")
-                .setPositiveButton("Yes", (dialog, id) -> {
+        builder.setMessage("Bạn có muốn xóa sản phẩm này khỏi giỏ hàng?")
+                .setPositiveButton("Có", (dialog, id) -> {
                     SharedPreferences sharedPreferences = getSharedPreferences("User_Info", MODE_PRIVATE);
                     String userId = sharedPreferences.getString("USER_ID", "");
                     SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -217,10 +218,10 @@ public class CartActivity extends AppCompatActivity {
                             if (response.isSuccessful()) {
                                 carts.remove(position);
                                 cartAdapter.notifyItemRemoved(position);
-                                Toast.makeText(CartActivity.this, "Item removed from cart", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(CartActivity.this, "Sản phẩm đã được xóa khỏi giỏ hàng", Toast.LENGTH_SHORT).show();
                                 updateCartUI();
                             } else {
-                                Toast.makeText(CartActivity.this, "Failed to remove item", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(CartActivity.this, "Lỗi khi xóa sản phẩm khỏi giỏ hàng", Toast.LENGTH_SHORT).show();
                             }
                         }
 
@@ -230,7 +231,7 @@ public class CartActivity extends AppCompatActivity {
                         }
                     });
                 })
-                .setNegativeButton("No", (dialog, id) -> {
+                .setNegativeButton("Không", (dialog, id) -> {
                     dialog.dismiss();
                     cartAdapter.notifyItemChanged(position);
                 });
@@ -286,7 +287,7 @@ public class CartActivity extends AppCompatActivity {
         double totalPrice = calculateTotalPrice();
 
         TextView tvTotalPrice = findViewById(R.id.tvTotalPrice);
-        tvTotalPrice.setText(String.format(Locale.getDefault(), "Total Price: $%.2f", totalPrice));
+        tvTotalPrice.setText(String.format(Locale.getDefault(), "Tổng giá: %.2f", totalPrice, "VND"));
     }
 
     @SuppressLint("SetTextI18n")
@@ -294,6 +295,6 @@ public class CartActivity extends AppCompatActivity {
         int selectedItemCount = calculateSelectedItemCount();
 
         Button buttonCheckout = findViewById(R.id.button_checkout);
-        buttonCheckout.setText("Buy Now(" + selectedItemCount + ")");
+        buttonCheckout.setText("Mua Ngay(" + selectedItemCount + ")");
     }
 }

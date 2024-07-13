@@ -1,6 +1,7 @@
-package com.example.prm392_craft_management.ui.review;
+package com.example.prm392_craft_management.ui.order;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,23 +19,23 @@ import com.example.prm392_craft_management.models.product.ProductModel;
 
 import java.util.List;
 
-public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder> {
+public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.ViewHolder> {
     List<ProductModel> listProduct;
 
-    public ReviewAdapter(List<ProductModel> listProduct) {
+    public OrderDetailAdapter(List<ProductModel> listProduct) {
         this.listProduct = listProduct;
     }
 
     @NonNull
     @Override
-    public ReviewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_confirm, parent, false);
+    public OrderDetailAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_orderproducts, parent, false);
         return new ViewHolder(view);
     }
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull ReviewAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull OrderDetailAdapter.ViewHolder holder, int position) {
         ProductModel list = listProduct.get(position);
         holder.textName.setText(list.getName());
         holder.textPrice.setText(String.valueOf(list.getPrice()));
@@ -42,10 +43,12 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
 
         if (!list.getImages().isEmpty()) {
             ImageModel imageModel = list.getImages().get(0);
-            String imageUrl = imageModel.getImage_url();
-            Glide.with(holder.imageConfirm.getContext())
+
+            String imageUrl = imageModel.getUrl();
+            Glide.with(holder.imageOrder.getContext())
                     .load(imageUrl)
-                    .into(holder.imageConfirm);
+                    .placeholder(R.drawable.empty_cart)
+                    .into(holder.imageOrder);
         }
     }
 
@@ -55,17 +58,17 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        CardView containerConfirm;
-        ImageView imageConfirm;
+        CardView containerOrder;
+        ImageView imageOrder;
         TextView textName, textPrice, textAmount;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            containerConfirm = itemView.findViewById(R.id.container_confirm);
-            imageConfirm = itemView.findViewById(R.id.item_confirm_image);
-            textName = itemView.findViewById(R.id.item_confirm_name);
-            textPrice = itemView.findViewById(R.id.item_confirm_price);
-            textAmount = itemView.findViewById(R.id.item_confirm_amount);
+            containerOrder = itemView.findViewById(R.id.container_orderproducts);
+            imageOrder = itemView.findViewById(R.id.item_order_image);
+            textName = itemView.findViewById(R.id.item_order_name);
+            textPrice = itemView.findViewById(R.id.item_order_price);
+            textAmount = itemView.findViewById(R.id.item_order_amount);
         }
     }
 }

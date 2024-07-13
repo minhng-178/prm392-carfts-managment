@@ -57,6 +57,8 @@ dependencies {
     implementation(libs.webkit)
     implementation (libs.socket.io.client)
     implementation(libs.firebase.messaging)
+    implementation (libs.viewpager2)
+    implementation (libs.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

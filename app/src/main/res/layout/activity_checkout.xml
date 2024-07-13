@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:background="@drawable/login_edit_grad"
-            android:hint="Enter phone number"
+            android:hint="Nhập số điện thoại"
             android:padding="10dp"
             android:textSize="20sp" />
 
@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:background="@drawable/login_edit_grad"
-            android:hint="Enter address"
+            android:hint="Nhập địa chỉ"
             android:padding="10dp"
             android:textSize="20sp" />
 
@@ -49,7 +49,7 @@
             android:layout_marginBottom="10dp"
             android:background="@drawable/login_edit_grad"
             android:padding="10dp"
-            android:text="Distance"
+            android:text="Khoảng cách"
             android:textSize="20sp" />
 
         <Button
@@ -60,10 +60,10 @@
             android:drawableEnd="@drawable/ic_location"
             android:drawablePadding="10dp"
             android:paddingBottom="5dp"
-            android:text="Set Current Location"
+            android:text="Sử dụng vị trí hiện tại"
             android:textAllCaps="false"
             android:textColor="@color/black"
-            android:textSize="20sp" />
+            android:textSize="16sp" />
 
         <FrameLayout
             android:layout_width="match_parent"

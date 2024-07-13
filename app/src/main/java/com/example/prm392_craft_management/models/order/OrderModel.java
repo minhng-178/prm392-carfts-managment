@@ -1,6 +1,7 @@
 package com.example.prm392_craft_management.models.order;
 
 import com.example.prm392_craft_management.models.product.ProductModel;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
@@ -10,8 +11,11 @@ public class OrderModel {
     private String phone;
     private String address;
     private int distance;
+    @SerializedName("total_product_price")
     private int totalProductPrice;
+    @SerializedName("shipping_fee")
     private int shippingFee;
+    @SerializedName("total_price")
     private int totalPrice;
     private int status;
     private String note;

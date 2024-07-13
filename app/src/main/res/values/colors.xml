@@ -15,4 +15,13 @@
     <color name="dark_late_gray">#2b3e50</color>
     <color name="grey">#d2d2d2</color>
     <color name="red_orange">#FF4433</color>
+    <color name="status_cancelled">#FF0000</color> <!-- Red -->
+    <color name="status_processing">#FFA500</color> <!-- Orange -->
+    <color name="status_confirmed">#FFFF00</color> <!-- Yellow -->
+    <color name="status_paid">#008000</color> <!-- Green -->
+    <color name="status_ship_code">#0000FF</color> <!-- Blue -->
+    <color name="status_hidden">#800080</color> <!-- Purple -->
+    <color name="status_refunding">#FFC0CB</color> <!-- Pink -->
+    <color name="status_refunded">#A52A2A</color> <!-- Brown -->
+    <color name="status_unknown">#000000</color> <!-- Black -->
 </resources>

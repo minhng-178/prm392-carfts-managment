@@ -21,40 +21,6 @@ public class OrderViewModel extends ViewModel {
         orderItems.setValue(orders);
     }
 
-    public void addOrderItem(OrderModel order) {
-        List<OrderModel> currentOrders = orderItems.getValue();
-        if (currentOrders != null) {
-            currentOrders.add(order);
-            orderItems.setValue(currentOrders);
-        }
-    }
-
-    public void updateOrderItem(OrderModel order) {
-        List<OrderModel> currentOrders = orderItems.getValue();
-        if (currentOrders != null) {
-            for (int i = 0; i < currentOrders.size(); i++) {
-                if (currentOrders.get(i).getId() == order.getId()) {
-                    currentOrders.set(i, order);
-                    orderItems.setValue(currentOrders);
-                    return;
-                }
-            }
-        }
-    }
-
-    public void removeOrderItem(int orderId) {
-        List<OrderModel> currentOrders = orderItems.getValue();
-        if (currentOrders != null) {
-            for (int i = 0; i < currentOrders.size(); i++) {
-                if (currentOrders.get(i).getId() == orderId) {
-                    currentOrders.remove(i);
-                    orderItems.setValue(currentOrders);
-                    return;
-                }
-            }
-        }
-    }
-
     public void refreshOrders(List<OrderModel> newOrders) {
         orderItems.setValue(newOrders);
     }
