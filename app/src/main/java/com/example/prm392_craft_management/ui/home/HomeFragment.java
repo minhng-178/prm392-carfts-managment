@@ -109,7 +109,14 @@ public class HomeFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        sliderHandler.removeCallbacks(sliderRunnable);
         binding = null;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        sliderHandler.removeCallbacks(sliderRunnable);
     }
 
     @Override

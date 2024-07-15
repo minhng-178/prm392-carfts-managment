@@ -105,9 +105,9 @@ public class HomeViewModel extends ViewModel {
 
     private void loadCarouselImages() {
         List<String> imageUrls = new ArrayList<>();
-        imageUrls.add("https://pos.nvncdn.com/14f951-12134/art/artCT/20230723_fv68YjfX.jpg");
-        imageUrls.add("https://pos.nvncdn.com/14f951-12134/art/artCT/20230723_fv68YjfX.jpg");
-        imageUrls.add("https://pos.nvncdn.com/14f951-12134/art/artCT/20230723_fv68YjfX.jpg");
+        imageUrls.add("https://res.cloudinary.com/ddf1wvwlc/image/upload/v1720877675/1_ulkh9e.png");
+        imageUrls.add("https://res.cloudinary.com/ddf1wvwlc/image/upload/v1720879148/2_yw9bdw.png");
+        imageUrls.add("https://res.cloudinary.com/ddf1wvwlc/image/upload/v1720878823/3_wy0ysg.png");
         mCarouselImages.postValue(imageUrls);
     }
 }

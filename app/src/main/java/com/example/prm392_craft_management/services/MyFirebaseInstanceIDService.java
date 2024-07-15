@@ -2,6 +2,7 @@ package com.example.prm392_craft_management.services;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.util.Log;
@@ -12,6 +13,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import com.example.prm392_craft_management.R;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -23,15 +25,13 @@ public class MyFirebaseInstanceIDService extends FirebaseMessagingService {
     public void onNewToken(@NonNull String token) {
         super.onNewToken(token);
         Log.d(TAG, "Refreshed token: " + token);
-        // Implement this method to send the token to your app server.
-//        sendRegistrationToServer(token);
     }
 
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        // Handle FCM messages here.
         if (remoteMessage.getNotification() != null) {
-            sendNotification(remoteMessage.getNotification().getBody());
+            Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
+//            sendNotification(remoteMessage.getNotification().getBody());
         }
     }
 
@@ -74,5 +74,4 @@ public class MyFirebaseInstanceIDService extends FirebaseMessagingService {
             notificationManager.createNotificationChannel(channel);
         }
     }
-
 }

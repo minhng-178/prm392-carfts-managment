@@ -24,7 +24,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/map_api_key" />
 
-        <service android:name=".services.NotificationService" />
+        <service android:name=".services.MyNotificationService" />
 
         <activity
             android:name=".ui.checkout.CheckoutActivity"
@@ -66,20 +66,29 @@
         <activity
             android:name=".ui.payment.PaymentActivity"
             android:exported="true"
-            android:label="Checkout" />
+            android:label="Thanh toán" />
 
         <activity
             android:name=".ui.chat.MessageActivity"
             android:exported="true"
             android:label="Chat" />
 
+        <activity
+            android:name=".ui.notification.NotificationActivity"
+            android:exported="true"
+            android:label="Thông báo" />
+
         <service
-            android:name=".services.MyFirebaseMessagingService"
+            android:name=".services.MyFirebaseInstanceIDService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_notification" />
 
     </application>
 

@@ -17,7 +17,8 @@
             android:id="@+id/checkbox_select_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical" />
+            android:layout_gravity="center_vertical"
+            android:textColorLink="@color/light_sea_green" />
 
         <ImageView
             android:id="@+id/ivCartItem"

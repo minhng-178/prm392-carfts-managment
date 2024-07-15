@@ -14,4 +14,13 @@
         android:orderInCategory="101"
         android:title="Message"
         app:showAsAction="ifRoom" />
+
+
+    <item
+        android:id="@+id/action_notification"
+        android:icon="@drawable/ic_notification"
+        android:orderInCategory="102"
+        android:title="Notification"
+        app:showAsAction="ifRoom" />
+
 </menu>

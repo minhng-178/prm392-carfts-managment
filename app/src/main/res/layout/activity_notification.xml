@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.notification.NotificationActivity">
+
+    <ImageButton
+        android:id="@+id/button_back"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_margin="20dp"
+        android:background="@drawable/bg_back"
+        android:elevation="10dp"
+        android:src="@drawable/ic_back" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvNotification"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/button_back" />
+</RelativeLayout>

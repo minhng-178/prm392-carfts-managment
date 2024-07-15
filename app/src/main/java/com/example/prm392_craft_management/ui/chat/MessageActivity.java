@@ -23,7 +23,7 @@ import com.example.prm392_craft_management.models.message.MessageRequestModel;
 import com.example.prm392_craft_management.models.message.MessageResponseModel;
 import com.example.prm392_craft_management.repositories.MessageRepository;
 import com.example.prm392_craft_management.services.MessageService;
-import com.example.prm392_craft_management.services.NotificationService;
+import com.example.prm392_craft_management.services.MyNotificationService;
 
 
 import org.json.JSONException;
@@ -47,7 +47,6 @@ public class MessageActivity extends AppCompatActivity implements TextWatcher {
     private MessageAdapter messageAdapter;
     private ImageView backBtn;
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +54,7 @@ public class MessageActivity extends AppCompatActivity implements TextWatcher {
         initializeView();
         initListeners();
         initiateSocketConnection();
-        startService(new Intent(this, NotificationService.class));
+        startService(new Intent(this, MyNotificationService.class));
     }
 
     private void initiateSocketConnection() {

@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,9 +26,11 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.prm392_craft_management.databinding.ActivityMainBinding;
 import com.example.prm392_craft_management.ui.chat.MessageActivity;
 import com.example.prm392_craft_management.ui.cart.CartActivity;
+import com.example.prm392_craft_management.ui.notification.NotificationActivity;
 import com.example.prm392_craft_management.utils.NotificationUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -76,6 +79,12 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        if (getIntent().getBooleanExtra("navigateToOrder", false)) {
+            navController.navigate(R.id.navigation_order);
+        }
+
+        getTokenDevice();
     }
 
     @Override
@@ -120,6 +129,14 @@ public class MainActivity extends AppCompatActivity {
             Intent chatIntent = new Intent(this, MessageActivity.class);
             startActivity(chatIntent);
             return true;
+        } else if (itemId == R.id.action_notification) {
+            if (userId.isEmpty()) {
+                Toast.makeText(this, "Xin hãy đăng nhập", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+            Intent notificationIntent = new Intent(this, NotificationActivity.class);
+            startActivity(notificationIntent);
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -162,8 +179,23 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void getTokenDevice() {
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                return;
+            }
+            String token = task.getResult();
+            Log.d("FCM", "Token: " + token);
+            // Save the token to SharedPreferences
+            SharedPreferences sharedPreferences = getSharedPreferences("FCM_PREFS", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("FCM_TOKEN", token);
+            editor.apply();
+        });
+    }
+
     private void showNotification() {
         NotificationUtils notificationUtils = new NotificationUtils(this, "CHANNEL_ID");
-        notificationUtils.showNotification("You have items in your cart!", "Don't forget to complete your purchase.", false);
+        notificationUtils.showNotification("Bạn có sản phẩm trong giỏ hàng!", "Mua ngay kẻo lỡ", false);
     }
 }

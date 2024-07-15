@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.prm392_craft_management.R;
+import com.example.prm392_craft_management.utils.NotificationUtils;
 
 public class PaymentActivity extends AppCompatActivity {
     WebView webView;
@@ -35,9 +36,9 @@ public class PaymentActivity extends AppCompatActivity {
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
-                Log.d("TAG", url);
                 if (isPaymentSuccessful(url)) {
                     showPaymentSuccessFragment();
+                    showNotifications();
                     webView.setVisibility(View.INVISIBLE);
                 }
             }
@@ -57,6 +58,11 @@ public class PaymentActivity extends AppCompatActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, fragment);
         transaction.commit();
+    }
+
+    private void showNotifications() {
+        NotificationUtils notificationUtils = new NotificationUtils(this, "CHANNEL_ID");
+        notificationUtils.showNotification("Thanh toán thành công!", "Cảm ơn bạn", false);
     }
 }
 

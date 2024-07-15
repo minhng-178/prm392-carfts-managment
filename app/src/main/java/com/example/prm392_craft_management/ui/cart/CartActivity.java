@@ -114,8 +114,7 @@ public class CartActivity extends AppCompatActivity {
                 Intent intent = new Intent(CartActivity.this, CheckoutActivity.class);
                 intent.putIntegerArrayListExtra("SELECTED_CART_IDS", (ArrayList<Integer>) selectedCartIds);
                 startActivity(intent);
-
-
+                
             } else {
                 Toast.makeText(this, "Xin hãy chọn ít nhất 1 sản phẩm", Toast.LENGTH_SHORT).show();
             }
@@ -166,7 +165,6 @@ public class CartActivity extends AppCompatActivity {
                         recyclerView.setAdapter(cartAdapter);
                         tvTotalItems.setText("Tổng sản phẩm: " + totalItems);
                         attachSwipeToDelete();
-
                     }
                 }
             }

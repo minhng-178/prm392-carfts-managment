@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.prm392_craft_management.MainActivity;
 import com.example.prm392_craft_management.R;
 import com.example.prm392_craft_management.models.order.OrderResponseModel;
 import com.example.prm392_craft_management.models.payment.PaymentRequestModel;
@@ -126,7 +127,8 @@ public class ReviewActivity extends AppCompatActivity {
                         intent.putExtra("PAYMENT_URL", response.body().getPayment().getUrl());
                         startActivity(intent);
                     } else {
-                        Intent intent = new Intent(ReviewActivity.this, OrderFragment.class);
+                        Intent intent = new Intent(ReviewActivity.this, MainActivity.class);
+                        intent.putExtra("navigateToOrder", true);
                         startActivity(intent);
                     }
                 } else {

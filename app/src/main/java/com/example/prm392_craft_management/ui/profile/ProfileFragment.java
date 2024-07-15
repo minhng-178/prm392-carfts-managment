@@ -59,6 +59,7 @@ public class ProfileFragment extends Fragment {
             loginButton.setVisibility(View.VISIBLE);
         } else {
             profileImageView.setVisibility(View.VISIBLE);
+            roleTextView.setVisibility(View.GONE);
             usernameTextView.setText(username);
             loginButton.setVisibility(View.GONE);
             logoutButton.setVisibility(View.VISIBLE);

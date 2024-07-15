@@ -89,7 +89,7 @@ public class OrderFragment extends Fragment {
 
     private void setupClickListeners() {
         relativeLayoutDropOff.setOnClickListener(view -> fetchOrdersByStatus(3));
-        relativeLayoutPickUp.setOnClickListener(view -> fetchOrdersByStatus(1));
+        relativeLayoutPickUp.setOnClickListener(view -> fetchOrdersByStatus(4));
         relativeLayoutPromo.setOnClickListener(view -> fetchOrdersByStatus(2));
         relativeLayoutTopUp.setOnClickListener(view -> fetchOrdersByStatus(0));
     }
@@ -140,7 +140,7 @@ public class OrderFragment extends Fragment {
             case 0:
                 relativeLayoutTopUp.findViewById(R.id.image_4).setBackgroundResource(R.drawable.bg_item_selected);
                 break;
-            case 1:
+            case 4:
                 relativeLayoutPickUp.findViewById(R.id.image_2).setBackgroundResource(R.drawable.bg_item_selected);
                 break;
             case 2:

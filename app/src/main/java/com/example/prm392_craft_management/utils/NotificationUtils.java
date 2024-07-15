@@ -44,8 +44,8 @@ public class NotificationUtils {
 
     private NotificationCompat.Builder buildNotification(String title, String text, boolean isMessage) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channelId)
-                .setSmallIcon(R.drawable.ic_notification)
-                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_notification))
+                .setSmallIcon(R.drawable.ic_bell)
+                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_bell))
                 .setContentTitle(title)
                 .setContentText(text)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(text))
