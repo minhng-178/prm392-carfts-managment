@@ -19,6 +19,8 @@ public class OrderProductsModel {
     private int totalPrice;
     private int status;
     private String username;
+    @SerializedName("is_admin_confirm")
+    private boolean isAdminConfirm;
 
     @SerializedName("created_at")
     private String createdAt;
@@ -118,5 +120,13 @@ public class OrderProductsModel {
 
     public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public boolean isAdminConfirm() {
+        return isAdminConfirm;
+    }
+
+    public void setAdminConfirm(boolean adminConfirm) {
+        isAdminConfirm = adminConfirm;
     }
 }

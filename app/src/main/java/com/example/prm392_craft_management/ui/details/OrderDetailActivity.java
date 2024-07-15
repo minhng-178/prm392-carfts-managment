@@ -4,7 +4,11 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ImageSpan;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -15,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -41,7 +46,7 @@ public class OrderDetailActivity extends AppCompatActivity {
     Button btnSubmit;
     ImageView buttonBack;
     OrderProductsResponseModel orderProductsResponseModel;
-    TextView tvOrderId, tvTotalProductPrice, tvShippingFee, tvTotalPrice, tvStatus, tvAddress, tvPhone, tvUsername, tvCreateAt;
+    TextView tvOrderId, tvTotalProductPrice, tvShippingFee, tvTotalPrice, tvStatus, tvAddress, tvPhone, tvUsername, tvCreateAt, tvIsConfirmed;
     int orderId;
     String username;
     List<ProductModel> productList;
@@ -66,6 +71,7 @@ public class OrderDetailActivity extends AppCompatActivity {
         tvAddress = findViewById(R.id.tvAddress);
         tvPhone = findViewById(R.id.tvPhone);
         tvUsername = findViewById(R.id.tvUsername);
+        tvIsConfirmed = findViewById(R.id.tvIsConfirmed);
         orderId = getIntent().getIntExtra("ORDER_ID", -1);
         SharedPreferences sharedPreferences = getSharedPreferences("User_Info", Context.MODE_PRIVATE);
         username = sharedPreferences.getString("USERNAME", "");
@@ -116,6 +122,12 @@ public class OrderDetailActivity extends AppCompatActivity {
         tvUsername.setText(username);
         tvStatus.setText(getStatusText(orderProductsResponseModel.getOrder().getStatus()));
         tvStatus.setTextColor(getStatusColor(orderProductsResponseModel.getOrder().getStatus()));
+        if (orderProductsResponseModel.getOrder().isAdminConfirm()) {
+            tvIsConfirmed.setText(getTextWithImage("Đã xác nhận: ", R.drawable.ic_confirm));
+        } else {
+            tvIsConfirmed.setText(getTextWithImage("Chưa xác nhận: ", R.drawable.ic_cancel));
+        }
+
         buttonBack.setOnClickListener(view -> getOnBackPressedDispatcher().onBackPressed());
         productList = orderProductsResponseModel.getOrder().getProducts();
         RecyclerView recyclerView = findViewById(R.id.recycleview_orderproducts);
@@ -169,5 +181,25 @@ public class OrderDetailActivity extends AppCompatActivity {
             default:
                 return ContextCompat.getColor(context, R.color.status_unknown);
         }
+    }
+
+    private SpannableString getTextWithImage(String text, int drawableResId) {
+        SpannableString spannableString = new SpannableString(text + " ");
+
+        Drawable drawable = ContextCompat.getDrawable(this, drawableResId);
+        if (drawable != null) {
+            // Tint the drawable based on the drawable resource ID
+            if (drawableResId == R.drawable.ic_confirm) {
+                DrawableCompat.setTint(drawable, ContextCompat.getColor(this, R.color.status_paid));
+            } else if (drawableResId == R.drawable.ic_cancel) {
+                DrawableCompat.setTint(drawable, ContextCompat.getColor(this, R.color.red_orange));
+            }
+
+            drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+            ImageSpan imageSpan = new ImageSpan(drawable, ImageSpan.ALIGN_BASELINE);
+            spannableString.setSpan(imageSpan, text.length(), text.length() + 1, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+        }
+
+        return spannableString;
     }
 }

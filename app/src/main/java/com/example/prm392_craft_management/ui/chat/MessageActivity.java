@@ -160,7 +160,7 @@ public class MessageActivity extends AppCompatActivity implements TextWatcher {
                     List<MessageModel> messageList = response.body();
                     messageAdapter = new MessageAdapter(messageList, userId);
                     recyclerView.setAdapter(messageAdapter);
-                    recyclerView.smoothScrollToPosition(messageAdapter.getItemCount() - 1);
+                    scrollToLastMessage();
                 } else {
                     Toast.makeText(MessageActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                 }
@@ -183,7 +183,7 @@ public class MessageActivity extends AppCompatActivity implements TextWatcher {
                     if (response.isSuccessful()) {
                         MessageModel newMessage = new MessageModel(message, receiverId, Integer.parseInt(userId));
                         messageAdapter.addMessage(newMessage);
-                        recyclerView.smoothScrollToPosition(messageAdapter.getItemCount() - 1);
+                        scrollToLastMessage();
                         resetMessageEdit();
                     } else {
                         Toast.makeText(MessageActivity.this, "Failed", Toast.LENGTH_SHORT).show();
@@ -196,6 +196,11 @@ public class MessageActivity extends AppCompatActivity implements TextWatcher {
                 }
             });
         });
+    }
 
+    private void scrollToLastMessage() {
+        if (messageAdapter != null && messageAdapter.getItemCount() > 0) {
+            recyclerView.smoothScrollToPosition(messageAdapter.getItemCount() - 1);
+        }
     }
 }

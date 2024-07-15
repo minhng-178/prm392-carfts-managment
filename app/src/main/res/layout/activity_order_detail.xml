@@ -101,6 +101,13 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tvIsConfirmed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="isConfirmed"
+                android:textStyle="bold" />
+
+            <TextView
                 android:id="@+id/tvTotalProductPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
