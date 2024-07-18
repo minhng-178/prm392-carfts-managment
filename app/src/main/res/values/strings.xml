@@ -5,6 +5,10 @@
     <string name="title_order">Đơn hàng</string>
     <string name="title_profile">Hồ sơ</string>
     <string name="title_activity_checkout">Checkout</string>
+    <string-array name="admin_confirm_options">
+        <item>Đã xác nhận</item>
+        <item>Chưa xác nhận</item>
+    </string-array>
 
     <string-array name="payment_methods">
         <item>Online</item>

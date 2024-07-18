@@ -18,7 +18,7 @@ public interface OrderService {
     String ORDER = "order";
 
     @GET(ORDER)
-    Call<OrderResponseModel> getOrdersByUserId(@Query("user_id") int userId, @Query("order_by") String orderBy, @Query("status") int status);
+    Call<OrderResponseModel> getOrdersByUserId(@Query("user_id") int userId, @Query("order_by") String orderBy, @Query("status") int status, @Query("is_admin_confirm") boolean isAdminConfirm);
 
     @GET(ORDER + "/{order_id}")
     Call<OrderProductsResponseModel> getOrderById(@Path("order_id") int orderId);

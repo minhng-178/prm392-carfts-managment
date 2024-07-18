@@ -7,7 +7,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -36,6 +38,7 @@ public class OrderFragment extends Fragment {
     private OrderAdapter adapter;
     private RecyclerView recyclerView;
     private TextView textNoOrders;
+    private Spinner spinnerAdminConfirm;
 
     private RelativeLayout relativeLayoutDropOff;
     private RelativeLayout relativeLayoutPickUp;
@@ -56,6 +59,7 @@ public class OrderFragment extends Fragment {
         relativeLayoutPickUp = root.findViewById(R.id.relativeLayoutPickUp);
         relativeLayoutPromo = root.findViewById(R.id.relativeLayoutPromo);
         relativeLayoutTopUp = root.findViewById(R.id.relativeLayoutTopUp);
+        spinnerAdminConfirm = root.findViewById(R.id.spinnerAdminConfirm);
 
         orderViewModel = new ViewModelProvider(this).get(OrderViewModel.class);
 
@@ -66,6 +70,18 @@ public class OrderFragment extends Fragment {
         String userId = sharedPreferences.getString("USER_ID", "");
 
         setupClickListeners();
+
+        spinnerAdminConfirm.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                fetchOrdersByStatus(3);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Do nothing
+            }
+        });
 
         if (!userId.isEmpty() || userId.matches("\\d+")) {
             fetchOrdersByStatus(3); // Default status
@@ -97,10 +113,11 @@ public class OrderFragment extends Fragment {
     private void fetchOrdersByStatus(int status) {
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("User_Info", Context.MODE_PRIVATE);
         String userId = sharedPreferences.getString("USER_ID", "");
+        boolean isAdminConfirm = spinnerAdminConfirm.getSelectedItemPosition() == 0;
 
         OrderService orderService = OrderRepository.getOrderService();
         if (!userId.isEmpty() || userId.matches("\\d+")) {
-            orderService.getOrdersByUserId(Integer.parseInt(userId), "created_at", status).enqueue(new Callback<OrderResponseModel>() {
+            orderService.getOrdersByUserId(Integer.parseInt(userId), "created_at", status, isAdminConfirm).enqueue(new Callback<OrderResponseModel>() {
                 @Override
                 public void onResponse(@NonNull Call<OrderResponseModel> call, @NonNull Response<OrderResponseModel> response) {
                     if (response.isSuccessful()) {
